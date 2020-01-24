@@ -1,3 +1,12 @@
+from .cogs import *
+from .tools import *
+from .config import *
+from .database import *
+from .events import *
+from .messages import *
+from .setup import *
+
+
 def version():
     return "0.0.1"
 
