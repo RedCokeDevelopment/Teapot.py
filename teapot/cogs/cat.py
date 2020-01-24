@@ -16,7 +16,7 @@ class Cat(commands.Cog):
 
         self.bot = bot
 
-    @commands.command(pass_context=True, alias=['meow'])
+    @commands.command(pass_context=True, aliases=['meow'])
     async def cat(self, ctx):
         """ When User Types ~meow, return a cat link """
         req = requests.get('https://api.thecatapi.com/v1/images/search')
@@ -28,7 +28,7 @@ class Cat(commands.Cog):
         em.set_image(url=rngcat)
         await ctx.send(embed=em)
 
-    @commands.command(pass_context=True, alias=['woof'])
+    @commands.command(pass_context=True, aliases=['woof'])
     async def dog(self, ctx):
         req = requests.get('http://random.dog/')
         if req.status_code != 200:

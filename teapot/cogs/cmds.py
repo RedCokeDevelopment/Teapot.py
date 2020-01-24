@@ -8,7 +8,6 @@ def __init__(bot):
     """ Initialize commands """
     helpcmd(bot)
     info(bot)
-    leave(bot)
     ping(bot)
     purge(bot)
     kick(bot)
@@ -21,25 +20,25 @@ def helpcmd(bot):
 
     @bot.command(aliases=['?'])
     async def help(ctx):
-        embed = discord.Embed(title="Developers: ColaIan, RedTea", description="Multi-purpose Discord Bot",
+        embed = discord.Embed(title="Command List", description="List of commands that you can use",
                               color=0x7400FF)
         embed.set_author(name=f"Teapot.py | {teapot.version()}",
                          icon_url="https://cdn.discordapp.com/avatars/612634758744113182/7fe078b5ea6b43000dfb7964e3e4d21d.png?size=512")
         embed.set_thumbnail(url="https://avatars2.githubusercontent.com/u/60006969?s=200&v=4")
-        embed.add_field(name="Bot User:", value=bot.user, inline=True)
-        embed.add_field(name="Guilds:", value=len(bot.guilds), inline=True)
-        embed.add_field(name="Members:", value=len(set(bot.get_all_members())), inline=True)
-        embed.add_field(name="O.S.:", value=str(teapot.platform()), inline=True)
-        embed.add_field(name="Storage Type:", value=teapot.config.storage_type(), inline=True)
-        embed.add_field(name="Prefix:", value=", ".join(teapot.config.bot_prefix()), inline=True)
-        embed.add_field(name="Github Repo:", value="[Teapot.py](https://github.com/RedCokeDevelopment/Teapot.py)",
-                        inline=True)
-        embed.add_field(name="Bug Report:", value="[Issues](https://github.com/RedCokeDevelopment/Teapot.py/issues)",
-                        inline=True)
-        embed.add_field(name="Discussion:", value="[Forums](https://forum.redtea.red)", inline=True)
-        embed.set_footer(text=f"{teapot.copyright()} | Code licensed under the MIT License")
+        embed.add_field(name="General", value="``help``, ``info``", inline=False)
+        embed.add_field(name="Music",
+                        value="``play``, ``pause``, ``resume``, ``stop``, ``repeat``, ``seek``, ``skip``, ``remove``, ``now``, ``queue``, ``volume``, ``shuffle``, ``find``, ``disconnect``",
+                        inline=False)
+        embed.add_field(name="Tools", value="``github``, ``osu``", inline=False)
+        embed.add_field(name="Fun", value="``cat``, ``dog``, ``neko``, ``hentai [NSFW]``", inline=False)
+        embed.add_field(name="Staff", value="``purge``, ``ping``, ``kick``, ``ban``", inline=False)
+        embed.add_field(name="Links",
+                        value="[Support Discord](https://discord.gg/7BRGs6F) | [Add bot to server](https://discordapp.com/api/oauth2/authorize?client_id=669880564270104586&permissions=0&scope=bot) | [Repository](https://github.com/RedCokeDevelopment/Teapot.py)",
+                        inline=False)
+
         embed.set_image(
             url="https://user-images.githubusercontent.com/43201383/72987537-89830a80-3e25-11ea-95ef-ecfa0afcff7e.png")
+        embed.set_footer(text=f"{teapot.copyright()} | Code licensed under the MIT License")
         await ctx.send(embed=embed)
 
 
@@ -66,12 +65,6 @@ def info(bot):
         embed.set_image(
             url="https://user-images.githubusercontent.com/43201383/72987537-89830a80-3e25-11ea-95ef-ecfa0afcff7e.png")
         await ctx.send(embed=embed)
-
-
-def leave(bot):
-    @bot.command()
-    async def leave(ctx):
-        await ctx.voice_client.disconnect()
 
 
 def ping(bot):

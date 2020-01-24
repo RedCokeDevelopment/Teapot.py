@@ -18,16 +18,16 @@ def notfound(s):
 
 
 def downloading():
-    return discord.Embed(title="⏱ Downloading File...", description="Please wait for up to 10 seconds!",
+    return discord.Embed(title="⏱ Downloading File...", description="Please wait for up to 3 seconds!",
                          color=0xFF0000)
 
 
-def error():
-    return discord.Embed(title="⚠ Unknown error occurred while executing command!",
+def error(e="executing command"):
+    return discord.Embed(title=f"⚠ Unknown error occurred while {e}!",
                          description="Please report to [Teapot.py](https://github.com/RedCokeDevelopment/Teapot.py) developers [here](https://github.com/RedCokeDevelopment/Teapot.py/issues)!",
                          color=0xFF0000)
 
 
-def invalidarguments(arg):
-    return discord.Embed(title="🟥 Invalid argument!", description=f"Valid argument: ``{arg}``",
+def invalidargument(arg):
+    return discord.Embed(title="🟥 Invalid argument!", description=f"Valid argument(s): ``{arg}``",
                          color=0xFF0000)

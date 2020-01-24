@@ -180,7 +180,7 @@ class Music(commands.Cog):
         if not volume:
             return await ctx.send(f'🔈 | {player.volume}%')
 
-        await player.set_volume(volume)  # Lavalink will automatically cap values between, or equal to 0-1000.
+        await player.set_volume(volume)  # Values are automatically capped between, or equal to 0-1000.
         await ctx.send(f'🔈 | Set to {player.volume}%')
 
     @commands.command()

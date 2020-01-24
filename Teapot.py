@@ -29,8 +29,8 @@ if os.getenv('CONFIG_VERSION') != teapot.config_version():
 print("Initializing bot...")
 if teapot.config.storage_type() == "mysql":
     time_start = time.perf_counter()
-    database = teapot.database.__init__()
-    db = teapot.database.db(database)
+    database = teapot.managers.database.__init__()
+    db = teapot.managers.database.db(database)
     db.execute('CREATE TABLE IF NOT EXISTS `guilds` (`guild_id` BIGINT, `guild_name` TINYTEXT)')
     db.execute('CREATE TABLE IF NOT EXISTS `channels` (`channel_id` BIGINT, `channel_name` TINYTEXT)')
     db.execute("CREATE TABLE IF NOT EXISTS `users` (`user_id` BIGINT, `user_name` TINYTEXT, `user_discriminator` INT)")
@@ -52,13 +52,7 @@ async def on_ready():
     teapot.cogs.neko.setup(bot)
     if teapot.config.storage_type() == "mysql":
         for guild in bot.guilds:
-            db.execute("SELECT * FROM `guilds` WHERE guild_id = '" + str(guild.id) + "'")
-            if db.rowcount == 0:
-                db.execute("INSERT INTO `guilds`(guild_id, guild_name) VALUES(%s, %s)", (guild.id, guild.name))
-                database.commit()
-            db.execute("CREATE TABLE IF NOT EXISTS `" + str(
-                guild.id) + "_logs" + "` (`timestamp` TEXT, `guild_id` BIGINT, `channel_id` BIGINT, `message_id` "
-                                      "BIGINT, `user_id` BIGINT, `action_type` TINYTEXT, `message` MEDIUMTEXT)")
+            teapot.managers.database.create_guild_table(guild)
     elif teapot.config.storage_type() == "flatfile":
         print("[!] Flatfile storage has not been implemented yet. MySQL database is recommended")
     print(f"Registered commands and events in {round(time.perf_counter() - time_start, 2)}s")
@@ -75,6 +69,7 @@ async def on_message(message):
                 db.execute("INSERT INTO `users`(user_id, user_name, user_discriminator) VALUES(%s, %s, %s)",
                            (message.author.id, message.author.name, message.author.discriminator.zfill(4)))
                 database.commit()
+
             db.execute("SELECT * FROM `channels` WHERE channel_id = '" + str(message.channel.id) + "'")
             if db.rowcount == 0:
                 db.execute("INSERT INTO `channels`(channel_id, channel_name) VALUES(%s, %s)",

@@ -1,5 +1,5 @@
 import json
-
+from discord.ext import commands
 import teapot
 
 
@@ -7,6 +7,7 @@ def __init__(bot):
     """ Initialize events """
     join(bot)
     leave(bot)
+    on_command_error(bot)
     message_edit(bot)
     message_delete(bot)
 
@@ -14,14 +15,47 @@ def __init__(bot):
 def join(bot):
     @bot.event
     async def on_member_join(member):
-        print(member)
-        print(f'{member} joined the server')
+        if teapot.config.storage_type() == "mysql":
+            try:
+                database = teapot.database.__init__()
+                db = teapot.database.db(database)
+                db.execute("INSERT INTO " + str(
+                    member.guild.id) + "_logs" + "(timestamp, guild_id, channel_id, user_id, action_type) VALUES(%s, %s, %s, %s, %s)",
+                           (teapot.time(), member.guild.id, member.channel.id, member.id, "MEMBER_JOIN"))
+                database.commit()
+            except Exception as e:
+                print(e)
 
 
 def leave(bot):
     @bot.event
     async def on_member_remove(member):
-        print(f'{member} left the server')
+        if teapot.config.storage_type() == "mysql":
+            try:
+                database = teapot.database.__init__()
+                db = teapot.database.db(database)
+                db.execute("INSERT INTO " + str(
+                    member.guild.id) + "_logs" + "(timestamp, guild_id, channel_id, user_id, action_type) VALUES(%s, %s, %s, %s, %s)",
+                           (teapot.time(), member.guild.id, member.channel.id, member.id, "MEMBER_REMOVE"))
+                database.commit()
+            except Exception as e:
+                print(e)
+
+
+def on_command_error(bot):
+    @bot.event
+    async def on_command_error(ctx, error):
+        if teapot.config.storage_type() == "mysql":
+            try:
+                database = teapot.database.__init__()
+                db = teapot.database.db(database)
+                db.execute("INSERT INTO " + str(
+                    ctx.guild.id) + "_logs" + "(timestamp, guild_id, channel_id, message_id, user_id, action_type, message) VALUES(%s, %s, %s, %s, %s, %s, %s)",
+                           (teapot.time(), ctx.guild.id, ctx.message.channel.id, ctx.message.id, ctx.message.author.id,
+                            "CMD_ERROR", str(error)))
+                database.commit()
+            except Exception as e:
+                print(e)
 
 
 def message_edit(bot):
