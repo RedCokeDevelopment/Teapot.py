@@ -31,7 +31,7 @@ class OsuPlayer:
         title = self.username
         desc = self.country.upper()
         url = 'https://osu.ppy.sh/u/' + self.username
-        em = dmbd.newembed(author, title, desc, url)
+        em = dmbd.newembed()
         em.add_field(name='Performance', value=self.pp_raw + 'pp')
         em.add_field(name='Accuracy', value="{0:.2f}%".format(float(self.accuracy)))
         lvl = int(float(self.level))
