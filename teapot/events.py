@@ -7,9 +7,11 @@ def __init__(bot):
     """ Initialize events """
     join(bot)
     leave(bot)
-    on_command_error(bot)
+    on_guild_join(bot)
+    message_send(bot)
     message_edit(bot)
     message_delete(bot)
+    on_command_error(bot)
 
 
 def join(bot):
@@ -42,20 +44,40 @@ def leave(bot):
                 print(e)
 
 
-def on_command_error(bot):
+def on_guild_join(bot):
     @bot.event
-    async def on_command_error(ctx, error):
+    async def on_guild_join(ctx):
+        if teapot.config.storage_type() == "mysql":
+            teapot.database.create_guild_table(ctx.guild)
+
+
+def message_send(bot):
+    @bot.event
+    async def on_message(message):
+        guild = message.guild
         if teapot.config.storage_type() == "mysql":
             try:
                 database = teapot.database.__init__()
                 db = teapot.database.db(database)
-                db.execute("INSERT INTO " + str(
-                    ctx.guild.id) + "_logs" + "(timestamp, guild_id, channel_id, message_id, user_id, action_type, message) VALUES(%s, %s, %s, %s, %s, %s, %s)",
-                           (teapot.time(), ctx.guild.id, ctx.message.channel.id, ctx.message.id, ctx.message.author.id,
-                            "CMD_ERROR", str(error)))
+                db.execute("SELECT * FROM `users` WHERE user_id = '" + str(message.author.id) + "'")
+                if db.rowcount == 0:
+                    db.execute("INSERT INTO `users`(user_id, user_name, user_discriminator) VALUES(%s, %s, %s)",
+                               (message.author.id, message.author.name, message.author.discriminator.zfill(4)))
+                    database.commit()
+
+                db.execute("SELECT * FROM `channels` WHERE channel_id = '" + str(message.channel.id) + "'")
+                if db.rowcount == 0:
+                    db.execute("INSERT INTO `channels`(channel_id, channel_name) VALUES(%s, %s)",
+                               (message.channel.id, message.channel.name))
+                    database.commit()
+                db.execute("INSERT INTO `" + str(
+                    guild.id) + "_logs" + "`(timestamp, guild_id, channel_id, message_id, user_id, action_type, message) VALUES(%s, %s, %s, %s, %s, %s, %s)",
+                           (teapot.time(), message.guild.id, message.channel.id, message.id, message.author.id,
+                            "MESSAGE_SEND", message.content))
                 database.commit()
             except Exception as e:
                 print(e)
+        await bot.process_commands(message)
 
 
 def message_edit(bot):
@@ -110,3 +132,19 @@ def message_delete(bot):
                 print(e)
         elif teapot.config.storage_type() == "flatfile":
             pass
+
+
+def on_command_error(bot):
+    @bot.event
+    async def on_command_error(ctx, error):
+        if teapot.config.storage_type() == "mysql":
+            try:
+                database = teapot.database.__init__()
+                db = teapot.database.db(database)
+                db.execute("INSERT INTO " + str(
+                    ctx.guild.id) + "_logs" + "(timestamp, guild_id, channel_id, message_id, user_id, action_type, message) VALUES(%s, %s, %s, %s, %s, %s, %s)",
+                           (teapot.time(), ctx.guild.id, ctx.message.channel.id, ctx.message.id, ctx.message.author.id,
+                            "CMD_ERROR", str(error)))
+                database.commit()
+            except Exception as e:
+                print(e)

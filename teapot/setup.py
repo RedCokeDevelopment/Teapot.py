@@ -9,9 +9,9 @@ def __init__():
     
       _____                      _      ____             __ _                       _             
      |_   _|__  __ _ _ __   ___ | |_   / ___|___  _ __  / _(_) __ _ _   _ _ __ __ _| |_ ___  _ __ 
-       | |/ _ \/ _` | '_ \ / _ \| __| | |   / _ \| '_ \| |_| |/ _` | | | | '__/ _` | __/ _ \| '__|
+       | |/ _ \\/ _` | '_ \\ / _ \\| __| | |   / _ \\| '_ \\| |_| |/ _` | | | | '__/ _` | __/ _ \\| '__|
        | |  __/ (_| | |_) | (_) | |_  | |__| (_) | | | |  _| | (_| | |_| | | | (_| | || (_) | |   
-       |_|\___|\__,_| .__/ \___/ \__|  \____\___/|_| |_|_| |_|\__, |\__,_|_|  \__,_|\__\___/|_|   
+       |_|\\___|\\__,_| .__/ \\___/ \\__|  \\____\\___/|_| |_|_| |_|\\__, |\\__,_|_|  \\__,_|\\__\\___/|_|   
                     |_|         by ColaIan and RedTea         |___/                               
     
                       NOTE: You can change the settings later in .env :3
@@ -73,6 +73,6 @@ LAVALINK_PASSWORD={input_lavalink_password}
         print("Setup complete!")
         time.sleep(5)
         print('\n' * 100)
-    except Exception as error:
-        print("\n[!] An error occurred when creating config file.\n" + str(error))
+    except Exception as e:
+        print("\n[!] An error occurred when creating config file.\n" + str(e))
         quit()

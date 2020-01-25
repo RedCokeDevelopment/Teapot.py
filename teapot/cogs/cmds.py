@@ -22,7 +22,7 @@ def helpcmd(bot):
     async def help(ctx):
         embed = discord.Embed(title="Command List", description="List of commands that you can use",
                               color=0x7400FF)
-        embed.set_author(name=f"Teapot.py | {teapot.version()}",
+        embed.set_author(name=f"Teapot.py {teapot.version()}",
                          icon_url="https://cdn.discordapp.com/avatars/612634758744113182/7fe078b5ea6b43000dfb7964e3e4d21d.png?size=512")
         embed.set_thumbnail(url="https://avatars2.githubusercontent.com/u/60006969?s=200&v=4")
         embed.add_field(name="General", value="``help``, ``info``", inline=False)
@@ -47,7 +47,7 @@ def info(bot):
     async def info(ctx):
         embed = discord.Embed(title="Developers: ColaIan, RedTea", description="Multi-purpose Discord Bot",
                               color=0x7400FF)
-        embed.set_author(name=f"Teapot.py | {teapot.version()}",
+        embed.set_author(name=f"Teapot.py {teapot.version()}",
                          icon_url="https://cdn.discordapp.com/avatars/612634758744113182/7fe078b5ea6b43000dfb7964e3e4d21d.png?size=512")
         embed.set_thumbnail(url="https://avatars2.githubusercontent.com/u/60006969?s=200&v=4")
         embed.add_field(name="Bot User:", value=bot.user, inline=True)
