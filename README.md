@@ -27,7 +27,7 @@ If you want to try it out by yourself, feel free to invite it to your Discord se
 - Music Player
 - Moderation Tools
 - Localization
-- Storage Type Support
+- Fun Commands
 
 
 ## 📖 Wiki
