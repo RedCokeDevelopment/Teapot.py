@@ -9,7 +9,7 @@ def __init__(bot):
     helpcmd(bot)
     info(bot)
     ping(bot)
-    purge(bot)
+    prune(bot)
     kick(bot)
     ban(bot)
     admin(bot)
@@ -73,10 +73,10 @@ def ping(bot):
         await ctx.send(f'Pong! {round(bot.latency * 1000)} ms')
 
 
-def purge(bot):
-    @bot.command(aliases=['clear', 'cls'])
+def prune(bot):
+    @bot.command(aliases=['purge', 'clear', 'cls'])
     @cmd.has_permissions(kick_members=True)
-    async def purge(ctx, amount=0):
+    async def prune(ctx, amount=0):
         if amount == 0:
             await ctx.send("Please specify the number of messages you want to delete!")
         else:
