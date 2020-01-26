@@ -44,14 +44,43 @@ def db(database):
         quit()
 
 
+def create_table(stmt):
+    database = teapot.managers.database.__init__()
+    db = teapot.managers.database.db(database)
+
+    db.execute(stmt)
+    db.close()
+    del db
+
+
+def insert(stmt, var):
+    database = teapot.managers.database.__init__()
+    db = teapot.managers.database.db(database)
+
+    db.execute(stmt, var)
+    database.commit()
+
+    db.close()
+    del db
+
+
+def insert_if_not_exists(stmt):
+    database = teapot.managers.database.__init__()
+    db = teapot.managers.database.db(database)
+
+    db.execute(stmt)
+    database.commit()
+
+    db.close()
+    del db
+
+
 def create_guild_table(guild):
     database = teapot.managers.database.__init__()
     db = teapot.managers.database.db(database)
 
     db.execute("SELECT * FROM `guilds` WHERE guild_id = '" + str(guild.id) + "'")
     if db.rowcount == 0:
-        db.execute("INSERT INTO `guilds`(guild_id, guild_name) VALUES(%s, %s)", (guild.id, guild.name))
-        database.commit()
-    db.execute("CREATE TABLE IF NOT EXISTS `" + str(
-        guild.id) + "_logs" + "` (`timestamp` TEXT, `guild_id` BIGINT, `channel_id` BIGINT, `message_id` "
-                              "BIGINT, `user_id` BIGINT, `action_type` TINYTEXT, `message` MEDIUMTEXT)")
+        insert("INSERT INTO `guilds`(guild_id, guild_name) VALUES(%s, %s)", (guild.id, guild.name))
+    create_table("CREATE TABLE IF NOT EXISTS `guild_logs` (`timestamp` TEXT, `guild_id` BIGINT, `channel_id` BIGINT, "
+                 "`message_id` BIGINT, `user_id` BIGINT, `action_type` TINYTEXT, `message` MEDIUMTEXT)")

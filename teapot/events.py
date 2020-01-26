@@ -21,9 +21,9 @@ def join(bot):
             try:
                 database = teapot.database.__init__()
                 db = teapot.database.db(database)
-                db.execute("INSERT INTO " + str(
-                    member.guild.id) + "_logs" + "(timestamp, guild_id, channel_id, user_id, action_type) VALUES(%s, %s, %s, %s, %s)",
-                           (teapot.time(), member.guild.id, member.channel.id, member.id, "MEMBER_JOIN"))
+                db.execute(
+                    "INSERT INTO `guild_logs`(timestamp, guild_id, channel_id, user_id, action_type) VALUES(%s, %s, %s, %s, %s)",
+                    (teapot.time(), member.guild.id, member.channel.id, member.id, "MEMBER_JOIN"))
                 database.commit()
             except Exception as e:
                 print(e)
@@ -36,9 +36,9 @@ def leave(bot):
             try:
                 database = teapot.database.__init__()
                 db = teapot.database.db(database)
-                db.execute("INSERT INTO " + str(
-                    member.guild.id) + "_logs" + "(timestamp, guild_id, channel_id, user_id, action_type) VALUES(%s, %s, %s, %s, %s)",
-                           (teapot.time(), member.guild.id, member.channel.id, member.id, "MEMBER_REMOVE"))
+                db.execute(
+                    "INSERT INTO `guild_logs`(timestamp, guild_id, channel_id, user_id, action_type) VALUES(%s, %s, %s, %s, %s)",
+                    (teapot.time(), member.guild.id, member.channel.id, member.id, "MEMBER_REMOVE"))
                 database.commit()
             except Exception as e:
                 print(e)
@@ -70,10 +70,10 @@ def message_send(bot):
                     db.execute("INSERT INTO `channels`(channel_id, channel_name) VALUES(%s, %s)",
                                (message.channel.id, message.channel.name))
                     database.commit()
-                db.execute("INSERT INTO `" + str(
-                    guild.id) + "_logs" + "`(timestamp, guild_id, channel_id, message_id, user_id, action_type, message) VALUES(%s, %s, %s, %s, %s, %s, %s)",
-                           (teapot.time(), message.guild.id, message.channel.id, message.id, message.author.id,
-                            "MESSAGE_SEND", message.content))
+                db.execute(
+                    "INSERT INTO `guild_logs`(timestamp, guild_id, channel_id, message_id, user_id, action_type, message) VALUES(%s, %s, %s, %s, %s, %s, %s)",
+                    (teapot.time(), message.guild.id, message.channel.id, message.id, message.author.id,
+                     "MESSAGE_SEND", message.content))
                 database.commit()
             except Exception as e:
                 print(e)
@@ -93,28 +93,24 @@ def message_edit(bot):
                 try:
                     database = teapot.database.__init__()
                     db = teapot.database.db(database)
-                    db.execute("INSERT INTO " + str(
-                        guild_id) + "_logs" + "(timestamp, guild_id, channel_id, message_id, user_id, action_type, message) VALUES(%s, %s, %s, %s, %s, %s, %s)",
-                               (teapot.time(), guild_id, channel_id, message_id, author_id, "MESSAGE_EDIT", content))
+                    db.execute(
+                        "INSERT INTO `guild_logs`(timestamp, guild_id, channel_id, message_id, user_id, action_type, message) VALUES(%s, %s, %s, %s, %s, %s, %s)",
+                        (teapot.time(), guild_id, channel_id, message_id, author_id, "MESSAGE_EDIT", content))
                     database.commit()
                 except Exception as e:
                     print(e)
-            elif teapot.config.storage_type() == "flatfile":
-                pass
         except:
             content = str(json.loads(json.dumps(ctx.data))['embeds'])
             if teapot.config.storage_type() == "mysql":
                 try:
                     database = teapot.database.__init__()
                     db = teapot.database.db(database)
-                    db.execute("INSERT INTO " + str(
-                        guild_id) + "_logs" + "(timestamp, guild_id, channel_id, message_id, action_type, message) VALUES(%s, %s, %s, %s, %s, %s)",
-                               (teapot.time(), guild_id, channel_id, message_id, "MESSAGE_EDIT", content))
+                    db.execute(
+                        "INSERT INTO `guild_logs`(timestamp, guild_id, channel_id, message_id, action_type, message) VALUES(%s, %s, %s, %s, %s, %s)",
+                        (teapot.time(), guild_id, channel_id, message_id, "MESSAGE_EDIT", content))
                     database.commit()
                 except Exception as e:
                     print(e)
-            elif teapot.config.storage_type() == "flatfile":
-                pass
 
 
 def message_delete(bot):
@@ -124,14 +120,12 @@ def message_delete(bot):
             try:
                 database = teapot.database.__init__()
                 db = teapot.database.db(database)
-                db.execute("INSERT INTO " + str(
-                    ctx.guild.id) + "_logs" + "(timestamp, guild_id, channel_id, message_id, user_id, action_type) VALUES(%s, %s, %s, %s, %s, %s)",
-                           (teapot.time(), ctx.guild.id, ctx.channel.id, ctx.id, ctx.author.id, "MESSAGE_DELETE"))
+                db.execute(
+                    "INSERT INTO `guild_logs`(timestamp, guild_id, channel_id, message_id, user_id, action_type) VALUES(%s, %s, %s, %s, %s, %s)",
+                    (teapot.time(), ctx.guild.id, ctx.channel.id, ctx.id, ctx.author.id, "MESSAGE_DELETE"))
                 database.commit()
             except Exception as e:
                 print(e)
-        elif teapot.config.storage_type() == "flatfile":
-            pass
 
 
 def on_command_error(bot):
@@ -141,10 +135,10 @@ def on_command_error(bot):
             try:
                 database = teapot.database.__init__()
                 db = teapot.database.db(database)
-                db.execute("INSERT INTO " + str(
-                    ctx.guild.id) + "_logs" + "(timestamp, guild_id, channel_id, message_id, user_id, action_type, message) VALUES(%s, %s, %s, %s, %s, %s, %s)",
-                           (teapot.time(), ctx.guild.id, ctx.message.channel.id, ctx.message.id, ctx.message.author.id,
-                            "CMD_ERROR", str(error)))
+                db.execute(
+                    "INSERT INTO `guild_logs`(timestamp, guild_id, channel_id, message_id, user_id, action_type, message) VALUES(%s, %s, %s, %s, %s, %s, %s)",
+                    (teapot.time(), ctx.guild.id, ctx.message.channel.id, ctx.message.id, ctx.message.author.id,
+                     "CMD_ERROR", str(error)))
                 database.commit()
             except Exception as e:
                 print(e)
