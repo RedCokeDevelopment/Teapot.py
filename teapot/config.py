@@ -30,7 +30,7 @@ def db_host():
 
 
 def db_port():
-    return os.environ['DB_PORT']
+    return os.getenv('DB_PORT', "3306")
 
 
 def db_schema():

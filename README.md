@@ -21,7 +21,7 @@
 
 Teapot.py is an open source Discord bot that aims to be as customisable as possible as well as providing essential tools for server administrators to run their Discord server!
 
-If you want to try it out by yourself, feel free to invite it to your Discord server by clicking [Here](https://discordapp.com/api/oauth2/authorize?client_id=669880564270104586&permissions=0&scope=bot)!
+If you want to try it out by yourself, feel free to invite it to your Discord server by clicking [Here](https://discordapp.com/oauth2/authorize?client_id=669880564270104586&permissions=8&scope=bot)!
 
 ## ⌨ Planned Features
 - Music Player

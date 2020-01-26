@@ -26,6 +26,7 @@ def __init__():
     try:
         database = mysql.connector.connect(
             host=teapot.config.db_host(),
+            port=teapot.config.db_port(),
             database=teapot.config.db_schema(),
             user=teapot.config.db_user(),
             passwd=teapot.config.db_password()
