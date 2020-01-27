@@ -80,8 +80,12 @@ class Neko(commands.Cog):
         await ctx.send(embed=self.neko_api(ctx, "goose"))
 
     @commands.command(pass_context=True)
-    async def gox_girl(self, ctx):
+    async def fox_girl(self, ctx):
         await ctx.send(embed=self.neko_api(ctx, "fox_girl"))
+
+    @commands.command(pass_context=True)
+    async def baka(self, ctx):
+        await ctx.send(embed=self.neko_api(ctx, "baka"))
 
     @commands.command(pass_context=True)
     async def hentai(self, ctx, type=""):
@@ -90,7 +94,7 @@ class Neko(commands.Cog):
                          'hololewd', 'lewdk', 'keta', 'feetg', 'nsfw_neko_gif', 'eroyuri',
                          'tits', 'pussy_jpg', 'cum_jpg', 'pussy', 'lewdkemo', 'lewd', 'cum', 'spank',
                          'smallboobs', 'Random_hentai_gif', 'nsfw_avatar', 'hug', 'gecg', 'boobs', 'pat',
-                         'feet', 'smug', 'kemonomimi', 'solog', 'holo', 'bj', 'woof', 'yuri', 'trap', 'anal', 'baka',
+                         'feet', 'smug', 'kemonomimi', 'solog', 'holo', 'bj', 'woof', 'yuri', 'trap', 'anal',
                          'blowjob', 'holoero', 'feed', 'gasm', 'hentai', 'futanari', 'ero', 'solo', 'pwankg', 'eron',
                          'erokemo']
             if type in api_types:
