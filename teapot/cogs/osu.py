@@ -11,6 +11,7 @@ class OsuPlayer:
     def __init__(self, player):
         self.id = player["user_id"]
         self.username = player["username"]
+        self.join_date = (player["join_date"].split(" "))[0]
         self.c300 = player["count300"]
         self.c100 = player["count100"]
         self.c50 = player["count50"]
@@ -28,38 +29,31 @@ class OsuPlayer:
         self.pp_country_rank = player["pp_country_rank"]
 
     def display(self, author):
-        title = self.username
-        desc = self.country.upper()
-        url = 'https://osu.ppy.sh/u/' + self.username
         em = dmbd.newembed()
+        em.set_author(name=f"{self.country.upper()} | {self.username}", url=f"https://osu.ppy.sh/u/{self.username}")
         em.add_field(name='Performance', value=self.pp_raw + 'pp')
         em.add_field(name='Accuracy', value="{0:.2f}%".format(float(self.accuracy)))
         lvl = int(float(self.level))
         percent = int((float(self.level) - lvl) * 100)
-        em.add_field(name='Level', value="{0} ({1}%)".format(lvl, percent))
+        em.add_field(name='Level', value=f"{lvl} ({percent}%)")
         em.add_field(name='Rank', value=self.pp)
         em.add_field(name='Country Rank', value=self.pp_country_rank)
         em.add_field(name='Playcount', value=self.playcount)
         em.add_field(name='Total Score', value=self.total)
         em.add_field(name='Ranked Score', value=self.ranked)
+        em.add_field(name='Registered At', value=self.join_date)
         return em
 
 
 class Osu(commands.Cog):
+    """Osu! Statistics"""
+
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(pass_context=True, no_pm=True)
     async def osu(self, ctx, *, args: str):
-        """
-        Look up an osu player:
-        Usage: osu [UserID/Username] [Optional:Mode(default Osu!)]
-        Modes:
-            0 - Default Osu!
-            1 - Taiko
-            2 - ChitogeBot
-            3 - Osu!mania
-        """
+        """ Look up an osu player """
 
         args_array = args.split(' ')
         if len(args_array) == 2:
@@ -69,20 +63,16 @@ class Osu(commands.Cog):
             peppy = args_array[0]
             type = "0"
         else:
-            await ctx.send('Wrong Syntax!')
+            await ctx.send('Invalid Syntax!')
             return
         cookiezi = '05b43eb66b2977d4f2c9148b00e3853688d515cf'
-        link = ('http://osu.ppy.sh/api/get_user?k=' + cookiezi + '&u=' + peppy
-                + '&m=' + type)
-        r = requests.get(link)
+        r = requests.get('http://osu.ppy.sh/api/get_user?k=' + cookiezi + '&u=' + peppy + '&m=' + type)
 
         if r.status_code != 200:
             print('Unable to fetch osu statistics!')
             return
-        brainpower = json.loads(r.text)
 
-        hvick = OsuPlayer(brainpower[0])
-        await ctx.send(embed=hvick.display(ctx.message.author))
+        await ctx.send(embed=OsuPlayer(json.loads(r.text)[0]).display(ctx.message.author))
 
 
 def setup(bot):

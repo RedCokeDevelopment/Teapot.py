@@ -2,8 +2,9 @@ import discord
 
 
 def WIP():
-    return discord.Embed(title="⏲ This feature is Work In Progress!",
-                         description="Please stay tuned to our latest updates!", color=0x89CFF0)
+    return discord.Embed(title="⏲ This feature is work in progress!",
+                         description="Please stay tuned to our latest updates [here]("
+                                     "https://github.com/RedCokeDevelopment/Teapot.py)!", color=0x89CFF0)
 
 
 def PermissionDenied():
@@ -30,4 +31,9 @@ def error(e="executing command"):
 
 def invalidargument(arg):
     return discord.Embed(title="🟥 Invalid argument!", description=f"Valid argument(s): ``{arg}``",
+                         color=0xFF0000)
+
+
+def toomanyarguments():
+    return discord.Embed(title="🛑 Too many arguments!", description=f"You have entered too many arguments!",
                          color=0xFF0000)

@@ -1,6 +1,8 @@
 import os
 import time
 from os.path import join, dirname
+import json
+import requests
 
 import discord
 from discord.ext import commands as dcmd
@@ -8,14 +10,34 @@ from dotenv import load_dotenv
 
 import teapot
 
-print("""
+print(f"""
   _____                      _   
  |_   _|__  __ _ _ __   ___ | |_ 
-   | |/ _ \/ _` | '_ \ / _ \| __|
+   | |/ _ \\/ _` | '_ \\ / _ \\| __|
    | |  __/ (_| | |_) | (_) | |_ 
-   |_|\___|\__,_| .__/ \___/ \__|
+   |_|\\___|\\__,_| .__/ \\___/ \\__|
     by ColaIan |_| & RedTea
+
+Running Teapot.py {teapot.version()}
 """)
+
+req = requests.get(f'https://api.github.com/repos/RedCokeDevelopment/Teapot.py/tags')
+response = json.loads(req.text)
+if req.status_code == 200:
+    if response[0]['name'] == teapot.version():
+        print("You are currently running the latest version of Teapot.py!\n")
+    else:
+        versionlisted = False
+        for x in response:
+            if x['name'] == teapot.version():
+                versionlisted = True
+                print("You are not using our latest version! :(\n")
+        if not versionlisted:
+            print("You are currently using an unlisted version!\n")
+elif req.status_code == 404:
+    print("Unable to fetch the latest Teapot.py version from GitHub!\n")
+else:
+    print("An unknown error has occurred when fetching the latest version of Teapot.py\n")
 
 load_dotenv(join(dirname(__file__), '.env'))
 
@@ -31,10 +53,24 @@ if teapot.config.storage_type() == "mysql":
     time_start = time.perf_counter()
     database = teapot.managers.database.__init__()
     db = teapot.managers.database.db(database)
-    db.execute('CREATE TABLE IF NOT EXISTS `guilds` (`guild_id` BIGINT, `guild_name` TINYTEXT)')
-    db.execute('CREATE TABLE IF NOT EXISTS `channels` (`channel_id` BIGINT, `channel_name` TINYTEXT)')
-    db.execute("CREATE TABLE IF NOT EXISTS `users` (`user_id` BIGINT, `user_name` TINYTEXT, `user_discriminator` INT)")
-    print(f"Connected to database ({teapot.config.db_host()}) in {round(time.perf_counter() - time_start, 2)}s")
+    db.execute('ALTER DATABASE teapot CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci')
+    db.execute(
+        'CREATE TABLE IF NOT EXISTS `guilds` (`guild_id` BIGINT, `guild_name` TINYTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci')
+    db.execute(
+        'CREATE TABLE IF NOT EXISTS `channels` (`channel_id` BIGINT, `channel_name` TINYTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci')
+    db.execute(
+        "CREATE TABLE IF NOT EXISTS `users` (`user_id` BIGINT, `user_name` TINYTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci, `user_discriminator` INT) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci")
+    db.execute(
+        "CREATE TABLE IF NOT EXISTS `bot_logs` (`timestamp` TEXT, `type` TINYTEXT, `class` TINYTEXT, `message` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci")
+    teapot.managers.database.create_table(
+        "CREATE TABLE IF NOT EXISTS `guild_logs` (`timestamp` TEXT, `guild_id` BIGINT, `channel_id` BIGINT, `message_id` BIGINT, `user_id` BIGINT, `action_type` TINYTEXT, `message` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci")
+
+    print(
+        f"Connected to database ({teapot.config.db_host()}:{teapot.config.db_port()}) in {round(time.perf_counter() - time_start, 2)}s")
+
+    db.execute("INSERT INTO `bot_logs`(timestamp, type, class, message) VALUES(%s, %s, %s, %s)",
+               (teapot.time(), "BOT_START", __name__, "Initialized bot"))
+    database.commit()
 
 bot = dcmd.Bot(command_prefix=teapot.config.bot_prefix())
 
@@ -53,41 +89,18 @@ async def on_ready():
     if teapot.config.storage_type() == "mysql":
         for guild in bot.guilds:
             teapot.managers.database.create_guild_table(guild)
-    elif teapot.config.storage_type() == "flatfile":
-        print("[!] Flatfile storage has not been implemented yet. MySQL database is recommended")
+    elif teapot.config.storage_type() == "sqlite":
+        print("[!] SQLite storage has not been implemented yet. MySQL database is recommended")
     print(f"Registered commands and events in {round(time.perf_counter() - time_start, 2)}s")
     await bot.change_presence(status=discord.Status.online, activity=discord.Game(teapot.config.bot_status()))
 
-
-@bot.event
-async def on_message(message):
-    guild = message.guild
-    if teapot.config.storage_type() == "mysql":
-        try:
-            db.execute("SELECT * FROM `users` WHERE user_id = '" + str(message.author.id) + "'")
-            if db.rowcount == 0:
-                db.execute("INSERT INTO `users`(user_id, user_name, user_discriminator) VALUES(%s, %s, %s)",
-                           (message.author.id, message.author.name, message.author.discriminator.zfill(4)))
-                database.commit()
-
-            db.execute("SELECT * FROM `channels` WHERE channel_id = '" + str(message.channel.id) + "'")
-            if db.rowcount == 0:
-                db.execute("INSERT INTO `channels`(channel_id, channel_name) VALUES(%s, %s)",
-                           (message.channel.id, message.channel.name))
-                database.commit()
-            db.execute("INSERT INTO `" + str(
-                guild.id) + "_logs" + "`(timestamp, guild_id, channel_id, message_id, user_id, action_type, message) VALUES(%s, %s, %s, %s, %s, %s, %s)",
-                       (teapot.time(), message.guild.id, message.channel.id, message.id, message.author.id,
-                        "MESSAGE_SEND", message.content))
-            database.commit()
-        except Exception as e:
-            print(e)
-    await bot.process_commands(message)
 
 
 try:
     discord_time_start = time.perf_counter()
     bot.run(teapot.config.bot_token())
 except Exception as e:
-    print(e)
-    print("[/!\] Failed to connect to DiscordAPI. Please check your bot token!")
+    print(f"[/!\\] Failed to connect to DiscordAPI. Please check your bot token!\n{e}")
+    if teapot.config.storage_type() == "mysql":
+        db.execute("INSERT INTO `bot_logs`(timestamp, type, class, message) VALUES(%s, %s, %s, %s)",
+                   (teapot.time(), "ERROR", __name__, e))

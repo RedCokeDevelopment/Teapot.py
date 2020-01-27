@@ -26,9 +26,12 @@ def __init__():
     try:
         database = mysql.connector.connect(
             host=teapot.config.db_host(),
-            database=teapot.config.db_schema(),
+            port=teapot.config.db_port(),
+            db=teapot.config.db_schema(),
             user=teapot.config.db_user(),
-            passwd=teapot.config.db_password()
+            passwd=teapot.config.db_password(),
+            charset='utf8mb4',
+            use_unicode=True
         )
         return (database)
     except Exception as error:
@@ -44,14 +47,41 @@ def db(database):
         quit()
 
 
+def create_table(stmt):
+    database = teapot.managers.database.__init__()
+    db = teapot.managers.database.db(database)
+
+    db.execute(stmt)
+    db.close()
+    del db
+
+
+def insert(stmt, var):
+    database = teapot.managers.database.__init__()
+    db = teapot.managers.database.db(database)
+
+    db.execute(stmt, var)
+    database.commit()
+
+    db.close()
+    del db
+
+
+def insert_if_not_exists(stmt):
+    database = teapot.managers.database.__init__()
+    db = teapot.managers.database.db(database)
+
+    db.execute(stmt)
+    database.commit()
+
+    db.close()
+    del db
+
+
 def create_guild_table(guild):
     database = teapot.managers.database.__init__()
     db = teapot.managers.database.db(database)
 
     db.execute("SELECT * FROM `guilds` WHERE guild_id = '" + str(guild.id) + "'")
     if db.rowcount == 0:
-        db.execute("INSERT INTO `guilds`(guild_id, guild_name) VALUES(%s, %s)", (guild.id, guild.name))
-        database.commit()
-    db.execute("CREATE TABLE IF NOT EXISTS `" + str(
-        guild.id) + "_logs" + "` (`timestamp` TEXT, `guild_id` BIGINT, `channel_id` BIGINT, `message_id` "
-                              "BIGINT, `user_id` BIGINT, `action_type` TINYTEXT, `message` MEDIUMTEXT)")
+        insert("INSERT INTO `guilds`(guild_id, guild_name) VALUES(%s, %s)", (guild.id, guild.name))

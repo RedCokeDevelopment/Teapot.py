@@ -11,6 +11,8 @@ url_rx = re.compile('https?:\\/\\/(?:www\\.)?.+')  # noqa: W605
 
 
 class Music(commands.Cog):
+    """Music Time"""
+
     def __init__(self, bot):
         self.bot = bot
 

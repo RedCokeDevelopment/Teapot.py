@@ -8,7 +8,7 @@ from .setup import *
 
 
 def version():
-    return "0.0.1"
+    return "v0.0.1.4"
 
 
 def config_version():

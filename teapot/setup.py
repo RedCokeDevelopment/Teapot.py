@@ -9,9 +9,9 @@ def __init__():
     
       _____                      _      ____             __ _                       _             
      |_   _|__  __ _ _ __   ___ | |_   / ___|___  _ __  / _(_) __ _ _   _ _ __ __ _| |_ ___  _ __ 
-       | |/ _ \/ _` | '_ \ / _ \| __| | |   / _ \| '_ \| |_| |/ _` | | | | '__/ _` | __/ _ \| '__|
+       | |/ _ \\/ _` | '_ \\ / _ \\| __| | |   / _ \\| '_ \\| |_| |/ _` | | | | '__/ _` | __/ _ \\| '__|
        | |  __/ (_| | |_) | (_) | |_  | |__| (_) | | | |  _| | (_| | |_| | | | (_| | || (_) | |   
-       |_|\___|\__,_| .__/ \___/ \__|  \____\___/|_| |_|_| |_|\__, |\__,_|_|  \__,_|\__\___/|_|   
+       |_|\\___|\\__,_| .__/ \\___/ \\__|  \\____\\___/|_| |_|_| |_|\\__, |\\__,_|_|  \\__,_|\\__\\___/|_|   
                     |_|         by ColaIan and RedTea         |___/                               
     
                       NOTE: You can change the settings later in .env :3
@@ -52,7 +52,7 @@ def __init__():
     input_lavalink_password = input("Lavalink Password: ")
 
     try:
-        config = f"""CONFIG_VERSION={teapot.config.config_version()}
+        config = f"""CONFIG_VERSION={teapot.config_version()}
 BOT_TOKEN={input_bot_token}
 BOT_PREFIX={input_bot_prefix}
 BOT_STATUS={input_bot_status}
@@ -66,13 +66,12 @@ DB_PASSWORD={input_mysql_password}
 
 LAVALINK_HOST={input_lavalink_host}
 LAVALINK_PORT={input_lavalink_port}
-LAVALINK_PASSWORD={input_lavalink_password}
-        """
+LAVALINK_PASSWORD={input_lavalink_password}"""
         open('./.env', 'w').write(config)
         print("\n[*] Successfully created config.ini!")
         print("Setup complete!")
         time.sleep(5)
         print('\n' * 100)
-    except Exception as error:
-        print("\n[!] An error occurred when creating config file.\n" + str(error))
+    except Exception as e:
+        print("\n[!] An error occurred when creating config file.\n" + str(e))
         quit()

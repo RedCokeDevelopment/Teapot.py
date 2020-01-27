@@ -1,4 +1,4 @@
-""" Module for generating a random cat picture"""
+""" Module for generating random neko pictures"""
 import io
 import json
 
@@ -12,10 +12,10 @@ import teapot.tools.embed as dmbd
 
 
 class Neko(commands.Cog):
-    """ Cat Module"""
+    """Neko!!! :3"""
 
     def __init__(self, bot):
-        """ Initialize Cat Class"""
+        """ Initialize neko class"""
 
         self.bot = bot
 
@@ -52,10 +52,6 @@ class Neko(commands.Cog):
         await ctx.send(embed=self.neko_api(ctx, "tickle"))
 
     @commands.command(pass_context=True)
-    async def ngif(self, ctx):
-        await ctx.send(embed=self.neko_api(ctx, "ngif"))
-
-    @commands.command(pass_context=True)
     async def poke(self, ctx):
         await ctx.send(embed=self.neko_api(ctx, "poke"))
 
@@ -90,7 +86,7 @@ class Neko(commands.Cog):
     @commands.command(pass_context=True)
     async def hentai(self, ctx, type=""):
         if ctx.message.channel.nsfw:
-            api_types = ['femdom', 'classic', 'erofeet', 'erok', 'les',
+            api_types = ['femdom', 'classic', 'ngif', 'erofeet', 'erok', 'les',
                          'hololewd', 'lewdk', 'keta', 'feetg', 'nsfw_neko_gif', 'eroyuri',
                          'tits', 'pussy_jpg', 'cum_jpg', 'pussy', 'lewdkemo', 'lewd', 'cum', 'spank',
                          'smallboobs', 'Random_hentai_gif', 'nsfw_avatar', 'hug', 'gecg', 'boobs', 'pat',
