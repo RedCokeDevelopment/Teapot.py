@@ -9,6 +9,7 @@ import teapot.tools.embed as dmbd
 
 
 class GitHub(commands.Cog):
+    """Get repository info"""
 
     def __init__(self, bot):
         self.bot = bot
@@ -48,9 +49,9 @@ class GitHub(commands.Cog):
 
             await ctx.send(embed=em)
         elif req.status_code == 404:
-            ctx.send(embed=teapot.messages.notfound("repository"))
+            await ctx.send(embed=teapot.messages.notfound("repository"))
         else:
-            ctx.send(embed=teapot.messages.error("repository"))
+            await ctx.send(embed=teapot.messages.error("repository"))
 
 
 def setup(bot):
