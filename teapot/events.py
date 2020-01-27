@@ -10,7 +10,7 @@ def __init__(bot):
     message_send(bot)
     message_edit(bot)
     message_delete(bot)
-    on_command_error(bot)
+    # on_command_error(bot)
 
 
 def join(bot):
@@ -99,7 +99,7 @@ def message_edit(bot):
                 except Exception as e:
                     print(e)
         except:
-            content = str(json.loads(json.dumps(ctx.data))['embeds'])
+            content = str(json.loads(json.dumps(ctx.data))['embeds'][0])
             if teapot.config.storage_type() == "mysql":
                 try:
                     database = teapot.database.__init__()
@@ -129,15 +129,14 @@ def message_delete(bot):
 
 def on_command_error(bot):
     @bot.event
-    async def on_command_error(ctx, error):
+    async def on_command_error(ctx, e):
         if teapot.config.storage_type() == "mysql":
             try:
                 database = teapot.database.__init__()
                 db = teapot.database.db(database)
                 db.execute(
-                    "INSERT INTO `guild_logs`(timestamp, guild_id, channel_id, message_id, user_id, action_type, message) VALUES(%s, %s, %s, %s, %s, %s, %s)",
-                    (teapot.time(), ctx.guild.id, ctx.message.channel.id, ctx.message.id, ctx.message.author.id,
-                     "CMD_ERROR", str(error)))
+                    "INSERT INTO `bot_logs`(timestamp, type, class, message) VALUES(%s, %s, %s, %s)",
+                    (teapot.time(), "CMD_ERROR", __name__, str(e)))
                 database.commit()
             except Exception as e:
                 print(e)
