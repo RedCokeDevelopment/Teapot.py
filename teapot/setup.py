@@ -52,7 +52,7 @@ def __init__():
     input_lavalink_password = input("Lavalink Password: ")
 
     try:
-        config = f"""CONFIG_VERSION={teapot.config.config_version()}
+        config = f"""CONFIG_VERSION={teapot.config_version()}
 BOT_TOKEN={input_bot_token}
 BOT_PREFIX={input_bot_prefix}
 BOT_STATUS={input_bot_status}
