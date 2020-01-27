@@ -66,8 +66,7 @@ DB_PASSWORD={input_mysql_password}
 
 LAVALINK_HOST={input_lavalink_host}
 LAVALINK_PORT={input_lavalink_port}
-LAVALINK_PASSWORD={input_lavalink_password}
-        """
+LAVALINK_PASSWORD={input_lavalink_password}"""
         open('./.env', 'w').write(config)
         print("\n[*] Successfully created config.ini!")
         print("Setup complete!")

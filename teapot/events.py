@@ -99,7 +99,7 @@ def message_edit(bot):
                 except Exception as e:
                     print(e)
         except:
-            content = str(json.loads(json.dumps(ctx.data))['embeds'][0])
+            content = str(json.loads(json.dumps(ctx.data))['embeds'])
             if teapot.config.storage_type() == "mysql":
                 try:
                     database = teapot.database.__init__()

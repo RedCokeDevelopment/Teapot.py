@@ -16,6 +16,7 @@ class GitHub(commands.Cog):
 
     @commands.command(pass_context=True, aliases=['gh'])
     async def github(self, ctx, arg):
+        """Fetch repository info"""
         req = requests.get(f'https://api.github.com/repos/{arg}')
         apijson = json.loads(req.text)
         if req.status_code == 200:

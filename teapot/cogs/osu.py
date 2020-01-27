@@ -46,15 +46,14 @@ class OsuPlayer:
 
 
 class Osu(commands.Cog):
+    """Osu! Statistics"""
+
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(pass_context=True, no_pm=True)
     async def osu(self, ctx, *, args: str):
-        """
-        Look up an osu player:
-        Usage: osu [UserID/Username]
-        """
+        """ Look up an osu player """
 
         args_array = args.split(' ')
         if len(args_array) == 2:

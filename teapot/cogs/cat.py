@@ -9,7 +9,7 @@ import teapot.tools.embed as dmbd
 
 
 class Cat(commands.Cog):
-    """ Cat Module"""
+    """ Cat and dog command"""
 
     def __init__(self, bot):
         """ Initialize Cat Class"""
@@ -18,7 +18,7 @@ class Cat(commands.Cog):
 
     @commands.command(pass_context=True, aliases=['meow'])
     async def cat(self, ctx):
-        """ When User Types ~meow, return a cat link """
+        """ Get a cat image """
         req = requests.get('https://api.thecatapi.com/v1/images/search')
         if req.status_code != 200:
             print("Could not get a meow")
@@ -30,6 +30,7 @@ class Cat(commands.Cog):
 
     @commands.command(pass_context=True, aliases=['woof'])
     async def dog(self, ctx):
+        """ Get a dog image """
         req = requests.get('http://random.dog/')
         if req.status_code != 200:
             print("Could not get a woof")

@@ -19,27 +19,53 @@ def helpcmd(bot):
     bot.remove_command('help')
 
     @bot.command(aliases=['?'])
-    async def help(ctx):
-        embed = discord.Embed(title="Command List", description="List of commands that you can use",
-                              color=0x7400FF)
-        embed.set_author(name=f"Teapot.py {teapot.version()}",
-                         icon_url="https://cdn.discordapp.com/avatars/612634758744113182/7fe078b5ea6b43000dfb7964e3e4d21d.png?size=512")
-        embed.set_thumbnail(url="https://avatars2.githubusercontent.com/u/60006969?s=200&v=4")
-        embed.add_field(name="General", value="``help``, ``info``", inline=False)
-        embed.add_field(name="Music",
-                        value="``play``, ``pause``, ``resume``, ``stop``, ``repeat``, ``seek``, ``skip``, ``remove``, ``now``, ``queue``, ``volume``, ``shuffle``, ``find``, ``disconnect``",
-                        inline=False)
-        embed.add_field(name="Tools", value="``github``, ``osu``", inline=False)
-        embed.add_field(name="Fun", value="``cat``, ``dog``, ``neko``, ``hentai [NSFW]``", inline=False)
-        embed.add_field(name="Staff", value="``purge``, ``ping``, ``kick``, ``ban``", inline=False)
-        embed.add_field(name="Links",
-                        value="[Support Discord](https://discord.gg/7BRGs6F) | [Add bot to server](https://discordapp.com/api/oauth2/authorize?client_id=669880564270104586&permissions=0&scope=bot) | [Repository](https://github.com/RedCokeDevelopment/Teapot.py)",
-                        inline=False)
-
-        embed.set_image(
-            url="https://user-images.githubusercontent.com/43201383/72987537-89830a80-3e25-11ea-95ef-ecfa0afcff7e.png")
-        embed.set_footer(text=f"{teapot.copyright()} | Code licensed under the MIT License")
-        await ctx.send(embed=embed)
+    async def help(ctx, *cog):
+        if not cog:
+            embed = discord.Embed(description="📖 Help", color=0x7400FF,
+                                  icon_url="https://cdn.discordapp.com/avatars/612634758744113182/7fe078b5ea6b43000dfb7964e3e4d21d.png?size=512")
+            embed.set_thumbnail(url="https://avatars2.githubusercontent.com/u/60006969?s=200&v=4")
+            cogs_desc = ""
+            for x in bot.cogs:
+                cogs_desc += f'**{x}** - {bot.cogs[x].__doc__}\n'
+            embed.add_field(name='Modules', value=cogs_desc[0:len(cogs_desc) - 1])
+            embed.set_footer(text=f"{teapot.copyright()} | Code licensed under the MIT License")
+            await ctx.send(embed=embed)
+            await ctx.message.add_reaction(emoji='✅')
+        else:
+            if len(cog) > 1:
+                await ctx.send(embed=teapot.messages.toomanyarguments())
+                await ctx.message.add_reaction(emoji='🛑')
+            else:
+                found = False
+                for x in bot.cogs:
+                    for y in cog:
+                        if x == y:
+                            embed = discord.Embed(color=0x7400FF)
+                            cog_info = ''
+                            for c in bot.get_cog(y).get_commands():
+                                if not c.hidden:
+                                    cog_info += f"**{c.name}** - {c.help}\n"
+                            embed.add_field(name=f"{cog[0]} Module", value=cog_info)
+                            await ctx.send(embed=embed)
+                            await ctx.message.add_reaction(emoji='✅')
+                            found = True
+                if not found:
+                    for x in bot.cogs:
+                        for c in bot.get_cog(x).get_commands():
+                            if c.name.lower() == cog[0].lower():
+                                embed = discord.Embed(title=f"Command: {c.name.lower().capitalize()}",
+                                                      description=f"**Description:** {c.help}\n**Syntax:** {c.qualified_name} {c.signature}",
+                                                      color=0x7400FF)
+                                embed.set_author(name=f"Teapot.py {teapot.version()}",
+                                                 icon_url="https://cdn.discordapp.com/avatars/612634758744113182/7fe078b5ea6b43000dfb7964e3e4d21d.png?size=512")
+                                await ctx.message.add_reaction(emoji='✅')
+                                found = True
+                    if not found:
+                        embed = teapot.messages.notfound("Module")
+                        await ctx.message.add_reaction(emoji='🛑')
+                    await ctx.send(embed=embed)
+                else:
+                    await ctx.message.add_reaction(emoji='✅')
 
 
 def info(bot):
@@ -61,6 +87,9 @@ def info(bot):
         embed.add_field(name="Bug Report:", value="[Issues](https://github.com/RedCokeDevelopment/Teapot.py/issues)",
                         inline=True)
         embed.add_field(name="Discussion:", value="[Forums](https://forum.redtea.red)", inline=True)
+        embed.add_field(name="Links",
+                        value="[Support Discord](https://discord.gg/7BRGs6F) | [Add bot to server](https://discordapp.com/oauth2/authorize?client_id=669880564270104586&permissions=8&scope=bot) | [Repository](https://github.com/RedCokeDevelopment/Teapot.py)",
+                        inline=False)
         embed.set_footer(text=f"{teapot.copyright()} | Code licensed under the MIT License")
         embed.set_image(
             url="https://user-images.githubusercontent.com/43201383/72987537-89830a80-3e25-11ea-95ef-ecfa0afcff7e.png")
