@@ -27,9 +27,11 @@ def __init__():
         database = mysql.connector.connect(
             host=teapot.config.db_host(),
             port=teapot.config.db_port(),
-            database=teapot.config.db_schema(),
+            db=teapot.config.db_schema(),
             user=teapot.config.db_user(),
-            passwd=teapot.config.db_password()
+            passwd=teapot.config.db_password(),
+            charset='utf8mb4',
+            use_unicode=True
         )
         return (database)
     except Exception as error:
@@ -83,5 +85,3 @@ def create_guild_table(guild):
     db.execute("SELECT * FROM `guilds` WHERE guild_id = '" + str(guild.id) + "'")
     if db.rowcount == 0:
         insert("INSERT INTO `guilds`(guild_id, guild_name) VALUES(%s, %s)", (guild.id, guild.name))
-    create_table("CREATE TABLE IF NOT EXISTS `guild_logs` (`timestamp` TEXT, `guild_id` BIGINT, `channel_id` BIGINT, "
-                 "`message_id` BIGINT, `user_id` BIGINT, `action_type` TINYTEXT, `message` MEDIUMTEXT)")

@@ -38,6 +38,10 @@ if teapot.config.storage_type() == "mysql":
     db.execute("CREATE TABLE IF NOT EXISTS `users` (`user_id` BIGINT, `user_name` TINYTEXT, `user_discriminator` INT)")
     db.execute("CREATE TABLE IF NOT EXISTS `bot_logs` (`timestamp` TEXT, `type` TINYTEXT, `class` TINYTEXT, `message` "
                "MEDIUMTEXT)")
+    teapot.managers.database.create_table(
+        "CREATE TABLE IF NOT EXISTS `guild_logs` (`timestamp` TEXT, `guild_id` BIGINT, `channel_id` BIGINT, "
+        "`message_id` BIGINT, `user_id` BIGINT, `action_type` TINYTEXT, `message` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci)")
+
     print(
         f"Connected to database ({teapot.config.db_host()}:{teapot.config.db_port()}) in {round(time.perf_counter() - time_start, 2)}s")
 
