@@ -1,6 +1,8 @@
 import os
 import time
 from os.path import join, dirname
+import json
+import requests
 
 import discord
 from discord.ext import commands as dcmd
@@ -18,6 +20,24 @@ print(f"""
 
 Running Teapot.py {teapot.version()}
 """)
+
+req = requests.get(f'https://api.github.com/repos/RedCokeDevelopment/Teapot.py/tags')
+response = json.loads(req.text)
+if req.status_code == 200:
+    if response[0]['name'] == teapot.version():
+        print("You are currently running the latest version of Teapot.py!\n")
+    else:
+        versionlisted = False
+        for x in response:
+            if x['name'] == teapot.version():
+                versionlisted = True
+                print("You are not using our latest version! :(\n")
+        if not versionlisted:
+            print("You are currently using an unlisted version!\n")
+elif req.status_code == 404:
+    print("Unable to fetch the latest Teapot.py version from GitHub!\n")
+else:
+    print("An unknown error has occurred when fetching the latest version of Teapot.py\n")
 
 load_dotenv(join(dirname(__file__), '.env'))
 
