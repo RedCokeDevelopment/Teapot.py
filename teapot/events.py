@@ -106,6 +106,7 @@ def message_send(bot):
                             title=f"✏ Generatied {content[-2].lower()} shaped {content[1].lower()} element!",
                             color=0xFF0000)
                         await message.channel.send(embed=em)
+        await bot.process_commands(message)
 
 
 def message_edit(bot):
