@@ -103,7 +103,7 @@ def message_send(bot):
                 if content[-1].lower() == "shape":
                     if content[2].lower() == "element":
                         em = discord.Embed(
-                            title=f"✏ Generatied {content[-2].lower()} shaped {content[1].lower()} element!",
+                            title=f"✏ Generated {content[-2].lower()} shaped {content[1].lower()} element!",
                             color=0xFF0000)
                         await message.channel.send(embed=em)
         await bot.process_commands(message)
