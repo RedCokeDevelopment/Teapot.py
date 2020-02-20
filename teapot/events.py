@@ -81,8 +81,15 @@ def message_send(bot):
     @bot.event
     async def on_message(message):
         # SAO Easter Egg
-        if message.content.lower().startswith("system call "):
-            content = message.content[12:].split(" ")
+        punctuations = '!()-[]{};:\'"\\,<>./?@#$%^&*_~'
+        # remove punctuation from the string
+        msg = ""
+        for char in message.content.lower():
+            if char not in punctuations:
+                msg = msg + char
+
+        if msg.startswith("system call "):
+            content = msg[12:].split(" ")
             if content[0].lower() == "inspect":
                 if content[1].lower() == "entire":
                     if content[2].lower() == "command":
