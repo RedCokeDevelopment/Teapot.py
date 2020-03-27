@@ -1,7 +1,7 @@
 ![banner](https://user-images.githubusercontent.com/43201383/72987537-89830a80-3e25-11ea-95ef-ecfa0afcff7e.png)
 
 <p align="center">
-    <a href="https://github.com/RedCokeDevelopment/Teapot.py/blob/dev/LICENSE"><img src="https://img.shields.io/github/license/redcokedevelopment/teapot.py.svg?style=flat-square" alt="GitHub License"></a>
+    <a href="https://github.com/RedCokeDevelopment/Teapot.py/blob/master/LICENSE"><img src="https://img.shields.io/github/license/redcokedevelopment/teapot.py.svg?style=flat-square" alt="GitHub License"></a>
     <a href="https://github.com/RedCokeDevelopment/Teapot.py/issues"><img src="https://img.shields.io/github/issues/redcokedevelopment/teapot.py.svg?color=purple&style=flat-square" alt="GitHub Issues"></a>
     <a href="https://github.com/RedCokeDevelopment/Teapot.py/pulls"><img src="https://img.shields.io/github/issues-pr/redcokedevelopment/teapot.py.svg?color=purple&style=flat-square" alt="GitHub Pull Requests"></a>
     <a href="https://github.com/RedCokeDevelopment/Teapot.py/stargazers"><img src="https://img.shields.io/github/stars/redcokedevelopment/teapot.py.svg?style=flat-square" alt="GitHub Stars"></a>
