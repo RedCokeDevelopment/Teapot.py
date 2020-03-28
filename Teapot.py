@@ -36,25 +36,25 @@ if req.status_code == 200:
             print("You are currently using an unlisted version!\n")
 elif req.status_code == 404:
   # 404 Not Found
-    print("Unable to fetch the latest Teapot.py version from GitHub!\n")
+    print("Latest Teapot.py version not found!\n")
 elif req.status_code == 500:
   # 500 Internal Server Error
-    print("Github seem to be down..  Internal Server Error\n")
+    print("An error occurred while fetching the latest Teapot.py version. [500 Internal Server Error]\n")
 elif req.status_code == 502:
   # 502 Bad Gateway
-    print("Github seem to be down..  Bad Gateway\n")
+    print("An error occurred while fetching the latest Teapot.py version. [502 Bad Gateway]\n")
 elif req.status_code == 503:
   # 503 Service Unavailable
-    print("Github seem to be down..  Service Unavailable\n")
+    print("An error occurred while fetching the latest Teapot.py version. [503 Service Unavailable]\n")
 else:
-    print("An unknown error has occurred when fetching the latest version of Teapot.py\n")
+    print("An unknown error has occurred when fetching the latest Teapot.py version\n")
     print("Error Code:" + str(req.status_code))
 
 load_dotenv(join(dirname(__file__), '.env'))
 
 if os.getenv('CONFIG_VERSION') != teapot.config_version():
     if os.path.isfile('.env'):
-        print("Missing environment variables. Please delete .env and run Teapot.py again.")
+        print("Missing environment variables. Please backup and delete .env, then run Teapot.py again.")
         quit(2)
     print("Unable to find required environment variables. Running setup.py...")
     teapot.setup.__init__()
