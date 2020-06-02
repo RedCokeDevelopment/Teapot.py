@@ -50,7 +50,7 @@ There are two owners for this project. They all contribute massively to the runn
 ## 📜 Requirements
 These are the requirements for the bot, and they will be bundled in future releases.
 
-- [Python 3.7](https://www.python.org/downloads/release/python-376/) (Required packages listed in requirements.txt)
+- [Python 3.8](https://www.python.org/downloads/release/python-382/) (Required packages listed in requirements.txt)
 - [LavaLink Server](https://github.com/Frederikam/Lavalink) (Java 11 required)
 
 ## 💛 Credits
