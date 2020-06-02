@@ -175,9 +175,14 @@ class Music(commands.Cog):
             await ctx.send('⏯ | Paused')
 
     @commands.command(aliases=['vol'])
-    async def volume(self, ctx, volume: int = None):
+    async def volume(self, ctx, volume):
         """ Changes the player's volume (0-1000). """
         player = self.bot.lavalink.players.get(ctx.guild.id)
+
+        try:
+            volume = int(volume)
+        except:
+            volume = int(volume[:-1])
 
         if not volume:
             return await ctx.send(f'🔈 | {player.volume}%')
