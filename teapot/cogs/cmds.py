@@ -95,6 +95,7 @@ def info(bot):
         embed.set_image(
             url="https://user-images.githubusercontent.com/43201383/72987537-89830a80-3e25-11ea-95ef-ecfa0afcff7e.png")
         await ctx.send(embed=embed)
+        await ctx.message.add_reaction(emoji='✅')
 
 
 def ping(bot):
@@ -120,24 +121,26 @@ def kick(bot):
         try:
             await member.kick(reason=reason)
             await ctx.send(f'{member} has been kicked!')
-            print(f'{member} has been kicked!')
+            await ctx.message.add_reaction(emoji='✅')
         except Exception as failkick:
-            await ctx.send("Failed to ban:" + str(failkick))
+            await ctx.send("Failed to kick: " + str(failkick))
+            await ctx.message.add_reaction(emoji='❌')
 
 
 def ban(bot):
     @bot.command()
-    @cmd.has_permissions(ban_members=True)
+    @cmd.has_permissions(ban_members=True)  # check user permission
     async def ban(ctx, member: discord.Member, *, reason=None):
         try:
             await member.ban(reason=reason)
             await ctx.send(f'{member} has been banned!')
-            print(f'{member} has been banned!')
+            await ctx.message.add_reaction(emoji='✅')
         except Exception as e:
-            await ctx.send("Failed to ban:" + e)
+            await ctx.send("Failed to ban: " + str(e))
+            await ctx.message.add_reaction(emoji='❌')
 
 
-def admin(bot):
+def admin(bot):  # WIP...
     @bot.command()
     async def admin(ctx):
         await ctx.send(embed=teapot.messages.WIP())
