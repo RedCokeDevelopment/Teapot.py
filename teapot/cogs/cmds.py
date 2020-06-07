@@ -72,7 +72,7 @@ def helpcmd(bot):
 def info(bot):
     @bot.command(aliases=['about'])
     async def info(ctx):
-        embed = discord.Embed(title="Developers: ColaIan, RedTea", description="Multi-purpose Discord Bot",
+        embed = discord.Embed(title="Developers: RedTea, ColaIan", description="Multi-purpose Discord Bot",
                               color=0x7400FF)
         embed.set_author(name=f"Teapot.py {teapot.version()}",
                          icon_url="https://cdn.discordapp.com/avatars/612634758744113182/7fe078b5ea6b43000dfb7964e3e4d21d.png?size=512")
@@ -102,6 +102,7 @@ def ping(bot):
     @bot.command()
     async def ping(ctx):
         await ctx.send(f'Pong! {round(bot.latency * 1000)} ms')
+        await ctx.message.add_reaction(emoji='✅')
 
 
 def prune(bot):
@@ -110,13 +111,18 @@ def prune(bot):
     async def prune(ctx, amount=0):
         if amount == 0:
             await ctx.send("Please specify the number of messages you want to delete!")
+            await ctx.message.add_reaction(emoji='❌')
+        elif amount <= 0:  # lower then 0
+            await ctx.send("The number must be bigger than 0!")
+            await ctx.message.add_reaction(emoji='❌')
         else:
+            await ctx.message.add_reaction(emoji='✅')
             await ctx.channel.purge(limit=amount + 1)
 
 
 def kick(bot):
     @bot.command()
-    @cmd.has_permissions(kick_members=True)
+    @cmd.has_permissions(kick_members=True) # check user permission
     async def kick(ctx, member: discord.Member, *, reason=None):
         try:
             await member.kick(reason=reason)
