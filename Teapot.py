@@ -48,7 +48,7 @@ elif req.status_code == 503:
     print("An error occurred while fetching the latest Teapot.py version. [503 Service Unavailable]\n")
 else:
     print("An unknown error has occurred when fetching the latest Teapot.py version\n")
-    print("Error Code:" + str(req.status_code))
+    print("HTML Error Code:" + str(req.status_code))
 
 load_dotenv(join(dirname(__file__), '.env'))
 
@@ -60,7 +60,7 @@ if os.getenv('CONFIG_VERSION') != teapot.config_version():
     teapot.setup.__init__()
 
 print("Initializing bot...")
-if teapot.config.storage_type() == "mysql":
+if teapot.config.storage_type() == "mysql": # if .env use mysql, use 
     time_start = time.perf_counter()
     database = teapot.managers.database.__init__()
     db = teapot.managers.database.db(database)
