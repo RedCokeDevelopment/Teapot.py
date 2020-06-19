@@ -64,6 +64,7 @@ class Osu(commands.Cog):
             type = "0"
         else:
             await ctx.send('Invalid Syntax!')
+            await ctx.message.add_reaction(emoji='❌')
             return
         cookiezi = '05b43eb66b2977d4f2c9148b00e3853688d515cf'
         r = requests.get('http://osu.ppy.sh/api/get_user?k=' + cookiezi + '&u=' + peppy + '&m=' + type)
@@ -72,6 +73,7 @@ class Osu(commands.Cog):
             print('Unable to fetch osu statistics!')
             return
 
+        await ctx.message.add_reaction(emoji='✅')
         await ctx.send(embed=OsuPlayer(json.loads(r.text)[0]).display(ctx.message.author))
 
 
