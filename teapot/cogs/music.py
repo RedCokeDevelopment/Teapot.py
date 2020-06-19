@@ -272,7 +272,7 @@ class Music(commands.Cog):
             player = self.bot.lavalink.players.create(ctx.guild.id, endpoint=str(ctx.guild.region))
         except Exception as e:  # players not found
             print("Music Player Error:" + str(e))
-            pass
+            raise commands.CommandInvokeError('An error occurred while contacting music player')
         # Create returns a player if one exists, otherwise creates.
 
         should_connect = ctx.command.name in ('play')  # Add commands that require joining voice to work.
