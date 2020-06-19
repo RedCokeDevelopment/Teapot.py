@@ -268,7 +268,11 @@ class Music(commands.Cog):
 
     async def ensure_voice(self, ctx):
         """ This check ensures that the bot and command author are in the same voice channel. """
-        player = self.bot.lavalink.players.create(ctx.guild.id, endpoint=str(ctx.guild.region))
+        try:
+            player = self.bot.lavalink.players.create(ctx.guild.id, endpoint=str(ctx.guild.region))
+        except Exception as e:  # players not found
+            print("Music Player Error:" + str(e))
+            pass
         # Create returns a player if one exists, otherwise creates.
 
         should_connect = ctx.command.name in ('play')  # Add commands that require joining voice to work.
