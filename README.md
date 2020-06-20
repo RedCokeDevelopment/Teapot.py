@@ -5,6 +5,7 @@
     <a href="https://github.com/RedCokeDevelopment/Teapot.py/issues"><img src="https://img.shields.io/github/issues/redcokedevelopment/teapot.py.svg?color=purple&style=flat-square" alt="GitHub Issues"></a>
     <a href="https://github.com/RedCokeDevelopment/Teapot.py/pulls"><img src="https://img.shields.io/github/issues-pr/redcokedevelopment/teapot.py.svg?color=purple&style=flat-square" alt="GitHub Pull Requests"></a>
     <a href="https://github.com/RedCokeDevelopment/Teapot.py/stargazers"><img src="https://img.shields.io/github/stars/redcokedevelopment/teapot.py.svg?style=flat-square" alt="GitHub Stars"></a>
+   <img src="https://github.com/RedCokeDevelopment/Teapot.py/workflows/Teapot.py/badge.svg" alt="Teapot.py">
     <br><br>
     <a href="https://discord.gg/7BRGs6F"><img src="https://discordapp.com/api/guilds/667714189254459414/widget.png?style=banner3" alt="Discord Server"></a>
 </p>
