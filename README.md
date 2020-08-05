@@ -14,13 +14,13 @@
     This project is currently in development!<br>
 </h2>
 <h4 align="center">
-    If you would  like to be notified when we commit, please watch this repository and join our Discord server.
+    If you would like to be notified when we commit, please watch this repository and join our Discord server.
 </h4>
 
 
 ## 👋 About
 
-Teapot.py is an open source Discord bot that aims to be as customisable as possible as well as providing essential tools for server administrators to run their Discord server!
+Teapot.py is an open-source Discord bot that aims to be as customizable as possible as well as providing essential tools for server administrators to run their Discord server!
 
 If you want to try it out by yourself, feel free to invite it to your Discord server by clicking [Here](https://discordapp.com/oauth2/authorize?client_id=669880564270104586&permissions=8&scope=bot)!
 
@@ -33,10 +33,10 @@ If you want to try it out by yourself, feel free to invite it to your Discord se
 
 ## 📖 Wiki
 
-Our wiki is currently work in progreses, please check back later!
+Our wiki is currently work in progress, please check back later!
 
 ## 🤝 Contributing
-Contributions, feedback and bug reports are welcome! Feel free to check out our [issues page](https://github.com/RedCokeDevelopment/Teapot.py/issues) to find out what you could do!
+Contributions, feedback, and bug reports are welcome! Feel free to check out our [issues page](https://github.com/RedCokeDevelopment/Teapot.py/issues) to find out what you could do!
 
 Before contributing, we recommend you say hi over in our [Discord server](https://discord.gg/7BRGs6F)! We can provide support with any issues you may have 🙂
 
