@@ -8,9 +8,9 @@ import discord
 from discord.ext import commands as dcmd
 from dotenv import load_dotenv
 
-import teapot
+import teapot # import teapot.py core
 
-print(f"""
+print("""
   _____                      _   
  |_   _|__  __ _ _ __   ___ | |_ 
    | |/ _ \\/ _` | '_ \\ / _ \\| __|
@@ -105,8 +105,6 @@ async def on_ready():
     print(f"Registered commands and events in {round(time.perf_counter() - time_start, 2)}s")
     await bot.change_presence(status=discord.Status.online, activity=discord.Game(teapot.config.bot_status())) # Update Bot status
 
-
-
 try:
     discord_time_start = time.perf_counter()
     bot.run(teapot.config.bot_token())
@@ -115,4 +113,5 @@ except Exception as e:
     if teapot.config.storage_type() == "mysql":
         db.execute("INSERT INTO `bot_logs`(timestamp, type, class, message) VALUES(%s, %s, %s, %s)",
                    (teapot.time(), "ERROR", __name__, e))
-    exit(9)
+    time.sleep(5)
+    exit(1)
