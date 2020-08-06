@@ -8,9 +8,9 @@ import discord
 from discord.ext import commands as dcmd
 from dotenv import load_dotenv
 
-import teapot # import teapot.py core
+import teapot  # import teapot.py core
 
-print("""
+print(f"""
   _____                      _   
  |_   _|__  __ _ _ __   ___ | |_ 
    | |/ _ \\/ _` | '_ \\ / _ \\| __|
@@ -35,16 +35,16 @@ if req.status_code == 200:
         if not versionlisted:
             print("You are currently using an unlisted version!\n")
 elif req.status_code == 404:
-  # 404 Not Found
+    # 404 Not Found
     print("Latest Teapot.py version not found!\n")
 elif req.status_code == 500:
-  # 500 Internal Server Error
+    # 500 Internal Server Error
     print("An error occurred while fetching the latest Teapot.py version. [500 Internal Server Error]\n")
 elif req.status_code == 502:
-  # 502 Bad Gateway
+    # 502 Bad Gateway
     print("An error occurred while fetching the latest Teapot.py version. [502 Bad Gateway]\n")
 elif req.status_code == 503:
-  # 503 Service Unavailable
+    # 503 Service Unavailable
     print("An error occurred while fetching the latest Teapot.py version. [503 Service Unavailable]\n")
 else:
     print("An unknown error has occurred when fetching the latest Teapot.py version\n")
@@ -54,13 +54,13 @@ load_dotenv(join(dirname(__file__), '.env'))
 
 if os.getenv('CONFIG_VERSION') != teapot.config_version():
     if os.path.isfile('.env'):
-        print("Missing environment variables. Please backup and delete .env, then run Teapot.py again.") 
+        print("Missing environment variables. Please backup and delete .env, then run Teapot.py again.")
         quit(2)
-    print("Unable to find required environment variables. Running setup.py...") # if .env not found
-    teapot.setup.__init__() # run setup.py
+    print("Unable to find required environment variables. Running setup.py...")  # if .env not found
+    teapot.setup.__init__()  # run setup.py
 
 print("Initializing bot...")
-if teapot.config.storage_type() == "mysql": # if .env use mysql, create the table if table not exists
+if teapot.config.storage_type() == "mysql":  # if .env use mysql, create the table if table not exists
     time_start = time.perf_counter()
     database = teapot.managers.database.__init__()
     db = teapot.managers.database.db(database)
@@ -101,9 +101,11 @@ async def on_ready():
         for guild in bot.guilds:
             teapot.managers.database.create_guild_table(guild)
     elif teapot.config.storage_type() == "sqlite":
-        print("[!] Warning: SQLite storage has not been implemented yet. MySQL database is recommended") # WIP
+        print("[!] Warning: SQLite storage has not been implemented yet. MySQL database is recommended")  # WIP
     print(f"Registered commands and events in {round(time.perf_counter() - time_start, 2)}s")
-    await bot.change_presence(status=discord.Status.online, activity=discord.Game(teapot.config.bot_status())) # Update Bot status
+    await bot.change_presence(status=discord.Status.online,
+                              activity=discord.Game(teapot.config.bot_status()))  # Update Bot status
+
 
 try:
     discord_time_start = time.perf_counter()
