@@ -1,7 +1,7 @@
 aiohttp==3.6.2
 async-timeout==3.0.1
 attrs==19.3.0
-beautifulsoup4==4.8.2
+beautifulsoup4==4.9.1
 bs4==0.0.1
 certifi==2019.11.28
 chardet==3.0.4
