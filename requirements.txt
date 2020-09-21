@@ -10,7 +10,7 @@ idna==2.8
 lavalink==3.1.2
 multidict==4.7.6
 mysql-connector==2.2.9
-python-dotenv==0.10.5
+python-dotenv==0.14.0
 requests==2.24.0
 soupsieve==1.9.5
 urllib3==1.25.10
