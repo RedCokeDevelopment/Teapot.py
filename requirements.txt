@@ -13,6 +13,6 @@ mysql-connector==2.2.9
 python-dotenv==0.10.5
 requests==2.24.0
 soupsieve==1.9.5
-urllib3==1.25.8
+urllib3==1.25.10
 websockets==8.1
 yarl==1.4.2
