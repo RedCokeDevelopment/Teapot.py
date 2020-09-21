@@ -6,7 +6,7 @@ bs4==0.0.1
 certifi==2019.11.28
 chardet==3.0.4
 discord.py==1.4.1
-idna==2.8
+idna==2.10
 lavalink==3.1.2
 multidict==4.7.6
 mysql-connector==2.2.9
