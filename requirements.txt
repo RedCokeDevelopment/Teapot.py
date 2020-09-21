@@ -15,4 +15,4 @@ requests==2.24.0
 soupsieve==1.9.5
 urllib3==1.25.8
 websockets==8.1
-yarl==1.4.2
+yarl==1.5.1
