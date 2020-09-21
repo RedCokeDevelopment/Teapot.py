@@ -8,7 +8,7 @@ chardet==3.0.4
 discord.py==1.4.1
 idna==2.8
 lavalink==3.1.2
-multidict==4.7.4
+multidict==4.7.6
 mysql-connector==2.2.9
 python-dotenv==0.10.5
 requests==2.24.0
