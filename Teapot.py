@@ -64,17 +64,17 @@ if teapot.config.storage_type() == "mysql": # if .env use mysql, create the tabl
     time_start = time.perf_counter()
     database = teapot.managers.database.__init__()
     db = teapot.managers.database.db(database)
-    db.execute('ALTER DATABASE teapot CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci')
+    db.execute('ALTER DATABASE teapot CHARACTER SET utf8 COLLATE utf8_general_ci')
     db.execute(
-        'CREATE TABLE IF NOT EXISTS `guilds` (`guild_id` BIGINT, `guild_name` TINYTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci')
+        'CREATE TABLE IF NOT EXISTS `guilds` (`guild_id` BIGINT, `guild_name` TINYTEXT CHARACTER SET utf8 COLLATE utf8_general_ci) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci')
     db.execute(
-        'CREATE TABLE IF NOT EXISTS `channels` (`channel_id` BIGINT, `channel_name` TINYTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci')
+        'CREATE TABLE IF NOT EXISTS `channels` (`channel_id` BIGINT, `channel_name` TINYTEXT CHARACTER SET utf8 COLLATE utf8_general_ci) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci')
     db.execute(
-        "CREATE TABLE IF NOT EXISTS `users` (`user_id` BIGINT, `user_name` TINYTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci, `user_discriminator` INT) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci")
+        "CREATE TABLE IF NOT EXISTS `users` (`user_id` BIGINT, `user_name` TINYTEXT CHARACTER SET utf8 COLLATE utf8_general_ci, `user_discriminator` INT) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci")
     db.execute(
-        "CREATE TABLE IF NOT EXISTS `bot_logs` (`timestamp` TEXT, `type` TINYTEXT, `class` TINYTEXT, `message` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci")
+        "CREATE TABLE IF NOT EXISTS `bot_logs` (`timestamp` TEXT, `type` TINYTEXT, `class` TINYTEXT, `message` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci")
     teapot.managers.database.create_table(
-        "CREATE TABLE IF NOT EXISTS `guild_logs` (`timestamp` TEXT, `guild_id` BIGINT, `channel_id` BIGINT, `message_id` BIGINT, `user_id` BIGINT, `action_type` TINYTEXT, `message` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci")
+        "CREATE TABLE IF NOT EXISTS `guild_logs` (`timestamp` TEXT, `guild_id` BIGINT, `channel_id` BIGINT, `message_id` BIGINT, `user_id` BIGINT, `action_type` TINYTEXT, `message` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci")
 
     print(
         f"Connected to database ({teapot.config.db_host()}:{teapot.config.db_port()}) in {round(time.perf_counter() - time_start, 2)}s")
