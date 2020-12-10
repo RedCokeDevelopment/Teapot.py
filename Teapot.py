@@ -8,7 +8,7 @@ import discord
 from discord.ext import commands as dcmd
 from dotenv import load_dotenv
 
-import teapot  # import teapot.py core
+import teapot
 
 print(f"""
   _____                      _   
@@ -57,10 +57,10 @@ if os.getenv('CONFIG_VERSION') != teapot.config_version():
         print("Missing environment variables. Please backup and delete .env, then run Teapot.py again.")
         quit(2)
     print("Unable to find required environment variables. Running setup.py...")  # if .env not found
-    teapot.setup.__init__()  # run setup.py
+    teapot.setup.__init__() # run setup.py
 
 print("Initializing bot...")
-if teapot.config.storage_type() == "mysql":  # if .env use mysql, create the table if table not exists
+if teapot.config.storage_type() == "mysql": # if .env use mysql, create the table if table not exists
     time_start = time.perf_counter()
     database = teapot.managers.database.__init__()
     db = teapot.managers.database.db(database)
@@ -96,12 +96,13 @@ async def on_ready():
     teapot.cogs.osu.setup(bot)
     teapot.cogs.github.setup(bot)
     teapot.cogs.cat.setup(bot)
+    teapot.cogs.eightball.setup(bot)
     teapot.cogs.neko.setup(bot)
     if teapot.config.storage_type() == "mysql":
         for guild in bot.guilds:
             teapot.managers.database.create_guild_table(guild)
     elif teapot.config.storage_type() == "sqlite":
-        print("[!] Warning: SQLite storage has not been implemented yet. MySQL database is recommended")  # WIP
+        print("[!] Warning: SQLite storage has not been implemented yet. MySQL is recommended")  # WIP
     print(f"Registered commands and events in {round(time.perf_counter() - time_start, 2)}s")
     await bot.change_presence(status=discord.Status.online,
                               activity=discord.Game(teapot.config.bot_status()))  # Update Bot status
