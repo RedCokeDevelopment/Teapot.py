@@ -96,12 +96,13 @@ async def on_ready():
     teapot.cogs.osu.setup(bot)
     teapot.cogs.github.setup(bot)
     teapot.cogs.cat.setup(bot)
+    teapot.cogs.eightball.setup(bot)
     teapot.cogs.neko.setup(bot)
     if teapot.config.storage_type() == "mysql":
         for guild in bot.guilds:
             teapot.managers.database.create_guild_table(guild)
     elif teapot.config.storage_type() == "sqlite":
-        print("[!] Warning: SQLite storage has not been implemented yet. MySQL database is recommended")  # WIP
+        print("[!] Warning: SQLite storage has not been implemented yet. MySQL is recommended")  # WIP
     print(f"Registered commands and events in {round(time.perf_counter() - time_start, 2)}s")
     await bot.change_presence(status=discord.Status.online,
                               activity=discord.Game(teapot.config.bot_status()))  # Update Bot status
