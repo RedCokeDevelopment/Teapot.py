@@ -30,7 +30,7 @@ def __init__():
             db=teapot.config.db_schema(),
             user=teapot.config.db_user(),
             passwd=teapot.config.db_password(),
-            charset='utf8',
+            charset='utf8mb4',
             use_unicode=True
         )
         return (database)
