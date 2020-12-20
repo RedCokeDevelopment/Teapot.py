@@ -96,7 +96,6 @@ async def on_ready():
     teapot.cogs.osu.setup(bot)
     teapot.cogs.github.setup(bot)
     teapot.cogs.cat.setup(bot)
-    teapot.cogs.eightball.setup(bot)
     teapot.cogs.neko.setup(bot)
     if teapot.config.storage_type() == "mysql":
         for guild in bot.guilds:
