@@ -2,12 +2,14 @@ import discord
 
 
 def WIP():
+    """Work In Progress"""
     return discord.Embed(title="⏲ This feature is work in progress!",
                          description="Please stay tuned to our latest updates [here]("
                                      "https://github.com/RedCokeDevelopment/Teapot.py)!", color=0x89CFF0)
 
 
 def PermissionDenied():
+    """user don't have permission"""
     return discord.Embed(title="🛑 Permission Denied!", description="You do not have permission to do this!",
                          color=0xFF0000)
 

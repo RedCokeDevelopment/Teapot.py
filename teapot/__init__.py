@@ -8,11 +8,11 @@ from .setup import *
 
 
 def version():
-    return "v0.0.1.4"
+    return "v0.0.1.7"
 
 
 def config_version():
-    return "0.1"
+    return "0.1"  # do not edit this!
 
 
 def time():
