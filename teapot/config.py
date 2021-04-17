@@ -10,6 +10,12 @@ def bot_owner():
 def bot_token():
     return os.getenv('BOT_TOKEN')
 
+def osu_api_key():
+    return os.getenv('OSU_API_KEY')
+
+def trn_api_key():
+    return os.getenv('TRN_API_KEY')
+
 
 def bot_prefix():
     return eval(os.getenv('BOT_PREFIX', "['/teapot ', '/tp']"))
