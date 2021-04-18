@@ -64,7 +64,7 @@ if teapot.config.storage_type() == "mysql": # if .env use mysql, create the tabl
     time_start = time.perf_counter()
     database = teapot.managers.database.__init__()
     db = teapot.managers.database.db(database)
-    db.execute('ALTER DATABASE teapot CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci')
+    db.execute('ALTER DATABASE `' + teapot.config.db_schema() + '` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci')
     db.execute(
         'CREATE TABLE IF NOT EXISTS `guilds` (`guild_id` BIGINT, `guild_name` TINYTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci')
     db.execute(
