@@ -57,4 +57,4 @@ These are the requirements for the bot, and they will be bundled in future relea
 ## 💛 Credits
 The projects listed in below have provided inspiration, and we thought we'd mention them:
 
-- LavaLink: https://github.com/Frederikam/Lavalink
+- LavaLink: https://github.com/freyacodes/lavalink
