@@ -86,7 +86,7 @@ if teapot.config.storage_type() == "mysql": # if .env use mysql, create the tabl
 intents = discord.Intents.default()
 intents.members = True
 intents.typing = False
-bot = dcmd.Bot(intents=intents, command_prefix=teapot.config.bot_prefix())
+bot = dcmd.Bot(intents=intents, command_prefix=teapot.config.bot_prefix(), help_command=None)
 
 @bot.event
 async def on_ready():

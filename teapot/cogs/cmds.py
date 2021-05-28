@@ -20,7 +20,6 @@ def __init__(bot):
 
 
 def helpcmd(bot):
-    bot.remove_command('help')
 
     @bot.command(aliases=['?'])
     async def help(ctx, *cog):
