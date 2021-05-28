@@ -3,6 +3,7 @@ import json
 import requests
 from discord.ext import commands
 
+import teapot.config
 import teapot.tools.embed as dmbd
 
 
@@ -58,23 +59,31 @@ class Osu(commands.Cog):
         args_array = args.split(' ')
         if len(args_array) == 2:
             peppy = args_array[0]
-            type = args_array[1]
+            mode = args_array[1]
         elif len(args_array) == 1:
             peppy = args_array[0]
-            type = "0"
+            mode = '0'
         else:
             await ctx.send('Invalid Syntax!')
             await ctx.message.add_reaction(emoji='❌')
             return
-        cookiezi = '05b43eb66b2977d4f2c9148b00e3853688d515cf'
-        r = requests.get('http://osu.ppy.sh/api/get_user?k=' + cookiezi + '&u=' + peppy + '&m=' + type)
+        r = requests.get('https://osu.ppy.sh/api/get_user'
+                         '?k=' + teapot.config.osu_api_key() + '&u=' + peppy + '&m=' + mode)
 
         if r.status_code != 200:
-            print('Unable to fetch osu statistics!')
+            print('Osu API Debug: ' + str(r.status_code) + ' | ' + r.text)
+            if r.status_code == 401:
+                await ctx.send('Invalid osu!api key. Please contact your server owner.')
+            else:
+                await ctx.send('Failed to fetch osu!api data. (' + str(r.status_code) + ')')
             return
 
+        user = json.loads(r.text)
+        if len(user) <= 1:
+            await ctx.send('osu! player not found.')
+            return
         await ctx.message.add_reaction(emoji='✅')
-        await ctx.send(embed=OsuPlayer(json.loads(r.text)[0]).display(ctx.message.author))
+        await ctx.send(embed=OsuPlayer(user[0]).display(ctx.message.author))
 
 
 def setup(bot):
