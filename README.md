@@ -49,12 +49,12 @@ There are two owners for this project. They all contribute massively to the runn
 - [RedTea](https://github.com/RedTeaDev) (RedTea#0001)
 
 ## 📜 Requirements
-These are the requirements for the bot, and they will be bundled in future releases.
+These are the requirements for the bot.
 
-- [Python 3.8](https://www.python.org/downloads/release/python-382/) (Required packages listed in requirements.txt)
+- [Python 3.9](https://www.python.org/downloads) (Required packages listed in requirements.txt)
 - [LavaLink Server](https://github.com/freyacodes/lavalink) (Java 11 required)
 
-## 💛 Credits
+## 💖 Credits
 The projects listed in below have provided inspiration, and we thought we'd mention them:
 
 - LavaLink: https://github.com/freyacodes/lavalink
