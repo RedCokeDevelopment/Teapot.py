@@ -16,7 +16,7 @@ class Cat(commands.Cog):
 
         self.bot = bot
 
-    @commands.command(pass_context=True, aliases=['meow'])
+    @commands.command(aliases=['meow'])
     async def cat(self, ctx):
         """ Get a cat image """
         req = requests.get('https://api.thecatapi.com/v1/images/search')
@@ -31,7 +31,7 @@ class Cat(commands.Cog):
         await ctx.send(embed=em)
         await ctx.message.add_reaction(emoji='✅')
 
-    @commands.command(pass_context=True, aliases=['woof'])
+    @commands.command(aliases=['woof'])
     async def dog(self, ctx):
         """ Get a dog image """
         req = requests.get('http://random.dog/')

@@ -52,7 +52,7 @@ class Osu(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(pass_context=True, no_pm=True)
+    @commands.command(no_pm=True)
     async def osu(self, ctx, *, args: str):
         """ Look up an osu player """
 
