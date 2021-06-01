@@ -1,28 +1,17 @@
 import discord
 import time
 import psutil
-from discord.ext import commands as cmd
+
 
 import teapot
 
 
-def __init__(bot):
-    """ Initialize commands """
-    helpcmd(bot)
-    info(bot)
-    ping(bot)
-    prune(bot)
-    kick(bot)
-    ban(bot)
-    admin(bot)
-    owner(bot)
-    debug(bot)
+class Commands(discord.ext.commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
 
-
-def helpcmd(bot):
-
-    @bot.command(aliases=['?'])
-    async def help(ctx, *cog):
+    @discord.ext.commands.command(aliases=['?'])
+    async def help(self, ctx, *cog):
         if not cog:
             embed = discord.Embed(description="📖 Help", color=0x7400FF,
                                   icon_url="https://cdn.discordapp.com/avatars/612634758744113182"
@@ -73,9 +62,8 @@ def helpcmd(bot):
                     await ctx.message.add_reaction(emoji='✅')
 
 
-def info(bot):
-    @bot.command(aliases=['about'])
-    async def info(ctx):
+    @discord.ext.commands.command(aliases=['about'])
+    async def info(self, ctx):
         embed = discord.Embed(title="Developers: RedTeaDev, ColaIan", description="Multi-purpose Discord Bot",
                               color=0x7400FF)
         embed.set_author(name=f"Teapot.py {teapot.version()}",
@@ -103,17 +91,15 @@ def info(bot):
         await ctx.message.add_reaction(emoji='✅')
 
 
-def ping(bot):
-    @bot.command()
-    async def ping(ctx):
+    @discord.ext.commands.command()
+    async def ping(self, ctx):
         await ctx.send(f'Pong! {round(bot.latency * 1000)} ms')
         await ctx.message.add_reaction(emoji='✅')
 
 
-def prune(bot):
-    @bot.command(aliases=['purge', 'clear', 'cls'])
-    @cmd.has_permissions(manage_messages=True)
-    async def prune(ctx, amount=0):
+    @discord.ext.commands.command(aliases=['purge', 'clear', 'cls'])
+    @discord.ext.commands.has_permissions(manage_messages=True)
+    async def prune(self, ctx, amount=0):
         if amount == 0:
             await ctx.send("Please specify the number of messages you want to delete!")
             await ctx.message.add_reaction(emoji='❌')
@@ -125,10 +111,9 @@ def prune(bot):
             await ctx.channel.purge(limit=amount + 1)
 
 
-def kick(bot):
-    @bot.command()
-    @cmd.has_permissions(kick_members=True)  # check user permission
-    async def kick(ctx, member: discord.Member, *, reason=None):
+    @discord.ext.commands.command()
+    @discord.ext.commands.has_permissions(kick_members=True)  # check user permission
+    async def kick(self, ctx, member: discord.Member, *, reason=None):
         try:
             await member.kick(reason=reason)
             await ctx.send(f'{member} has been kicked!')
@@ -138,10 +123,9 @@ def kick(bot):
             await ctx.message.add_reaction(emoji='❌')
 
 
-def ban(bot):
-    @bot.command()
-    @cmd.has_permissions(ban_members=True)  # check user permission
-    async def ban(ctx, member: discord.Member, *, reason=None):
+    @discord.ext.commands.command()
+    @discord.ext.commands.has_permissions(ban_members=True)  # check user permission
+    async def ban(self, ctx, member: discord.Member, *, reason=None):
         try:
             await member.ban(reason=reason)
             await ctx.send(f'{member} has been banned!')
@@ -150,16 +134,13 @@ def ban(bot):
             await ctx.send("Failed to ban: " + str(e))
             await ctx.message.add_reaction(emoji='❌')
 
-
-def admin(bot):  # WIP...
-    @bot.command()
-    async def admin(ctx):
+    @discord.ext.commands.command() # Work In Progress
+    async def admin(self, ctx):
         await ctx.send(embed=teapot.messages.WIP())
 
 
-def owner(bot):
-    @bot.command()
-    async def owner(ctx):
+    @discord.ext.commands.command()
+    async def owner(self, ctx):
         if ctx.message.author.id == teapot.config.bot_owner():
             found = False
             for role in ctx.guild.roles:
@@ -176,10 +157,9 @@ def owner(bot):
                         break
 
 
-def debug(bot):
-    @bot.command()
-    @cmd.has_permissions(administrator=True)
-    async def debug(ctx):
+    @discord.ext.commands.command()
+    @discord.ext.commands.has_permissions(administrator=True)
+    async def debug(self, ctx):
         embed = discord.Embed(title="Developers: RedTea, ColaIan", description="Debug info:",
                               color=0x7400FF)
         embed.set_author(name=f"Teapot.py {teapot.version()}",
@@ -205,3 +185,6 @@ def debug(bot):
         # embed.set_image(url="https://user-images.githubusercontent.com/43201383/72987537-89830a80-3e25-11ea-95ef-ecfa0afcff7e.png")
         await ctx.message.author.send(embed=embed)
         await ctx.message.add_reaction(emoji='✅')
+ 
+def setup(bot):
+    bot.add_cog(Commands(bot))
