@@ -36,7 +36,7 @@ class Commands(discord.ext.commands.Cog):
                         if x == y:
                             embed = discord.Embed(color=0x7400FF)
                             cog_info = ''
-                            for c in bot.get_cog(y).get_commands():
+                            for c in self.bot.get_cog(y).get_commands():
                                 if not c.hidden:
                                     cog_info += f"**{c.name}** - {c.help}\n"
                             embed.add_field(name=f"{cog[0]} Module", value=cog_info)
