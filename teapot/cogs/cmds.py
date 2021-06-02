@@ -19,8 +19,8 @@ class Commands(discord.ext.commands.Cog):
                                            "/7fe078b5ea6b43000dfb7964e3e4d21d.png?size=512")
             embed.set_thumbnail(url="https://avatars2.githubusercontent.com/u/60006969?s=200&v=4")
             cogs_desc = ""
-            for x in bot.cogs:
-                cogs_desc += f'**{x}** - {bot.cogs[x].__doc__}\n'
+            for x in self.bot.cogs:
+                cogs_desc += f'**{x}** - {self.bot.cogs[x].__doc__}\n'
             embed.add_field(name='Modules', value=cogs_desc[0:len(cogs_desc) - 1])
             embed.set_footer(text=f"{teapot.copyright()} | Code licensed under the MIT License")
             await ctx.send(embed=embed)
@@ -31,7 +31,7 @@ class Commands(discord.ext.commands.Cog):
                 await ctx.message.add_reaction(emoji='🛑')
             else:
                 found = False
-                for x in bot.cogs:
+                for x in self.bot.cogs:
                     for y in cog:
                         if x == y:
                             embed = discord.Embed(color=0x7400FF)
@@ -44,7 +44,7 @@ class Commands(discord.ext.commands.Cog):
                             await ctx.message.add_reaction(emoji='✅')
                             found = True
                 if not found:
-                    for x in bot.cogs:
+                    for x in self.bot.cogs:
                         for c in bot.get_cog(x).get_commands():
                             if c.name.lower() == cog[0].lower():
                                 embed = discord.Embed(title=f"Command: {c.name.lower().capitalize()}",
