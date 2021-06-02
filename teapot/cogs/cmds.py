@@ -45,7 +45,7 @@ class Commands(discord.ext.commands.Cog):
                             found = True
                 if not found:
                     for x in self.bot.cogs:
-                        for c in bot.get_cog(x).get_commands():
+                        for c in self.bot.get_cog(x).get_commands():
                             if c.name.lower() == cog[0].lower():
                                 embed = discord.Embed(title=f"Command: {c.name.lower().capitalize()}",
                                                       description=f"**Description:** {c.help}\n**Syntax:** {c.qualified_name} {c.signature}",
