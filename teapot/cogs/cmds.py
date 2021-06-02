@@ -1,6 +1,7 @@
 import discord
-import time
 import psutil
+import time
+import typing
 
 
 import teapot
@@ -70,9 +71,9 @@ class Commands(discord.ext.commands.Cog):
                          icon_url="https://cdn.discordapp.com/avatars/612634758744113182"
                                   "/7fe078b5ea6b43000dfb7964e3e4d21d.png?size=512")
         embed.set_thumbnail(url="https://avatars2.githubusercontent.com/u/60006969?s=200&v=4")
-        embed.add_field(name="Bot User:", value=bot.user)
-        embed.add_field(name="Guilds:", value=len(bot.guilds))
-        embed.add_field(name="Members:", value=len(set(bot.get_all_members())))
+        embed.add_field(name="Bot User:", value=self.bot.user)
+        embed.add_field(name="Guilds:", value=len(self.bot.guilds))
+        embed.add_field(name="Members:", value=len(set(self.bot.get_all_members())))
         embed.add_field(name="O.S.:", value=str(teapot.platform()))
         embed.add_field(name="Storage Type:", value=teapot.config.storage_type())
         embed.add_field(name="Prefix:", value=", ".join(teapot.config.bot_prefix()))
@@ -84,7 +85,7 @@ class Commands(discord.ext.commands.Cog):
                               "https://discordapp.com/oauth2/authorize?client_id=669880564270104586&permissions=8"
                               "&scope=bot) | [Repository](https://github.com/RedCokeDevelopment/Teapot.py)",
                         inline=False)
-        embed.set_footer(text=f"{teapot.copyright()} | Code licensed under the MIT License")
+        embed.set_footer(text=f"{teapot.copyright()} | Code licensed under MIT License")
         embed.set_image(
             url="https://user-images.githubusercontent.com/43201383/72987537-89830a80-3e25-11ea-95ef-ecfa0afcff7e.png")
         await ctx.send(embed=embed)
@@ -93,7 +94,7 @@ class Commands(discord.ext.commands.Cog):
 
     @discord.ext.commands.command()
     async def ping(self, ctx):
-        await ctx.send(f'Pong! {round(bot.latency * 1000)} ms')
+        await ctx.send(f'Pong! {round(self.bot.latency * 1000)} ms')
         await ctx.message.add_reaction(emoji='✅')
 
 
@@ -125,13 +126,28 @@ class Commands(discord.ext.commands.Cog):
 
     @discord.ext.commands.command()
     @discord.ext.commands.has_permissions(ban_members=True)  # check user permission
-    async def ban(self, ctx, member: discord.Member, *, reason=None):
+    async def ban(self, ctx, member: typing.Any[discord.Member, discord.User], *, reason=None):  # Banning a member who is not in the server is also possible
         try:
-            await member.ban(reason=reason)
-            await ctx.send(f'{member} has been banned!')
+            if isinstance(member, discord.Member):
+                await member.ban(reason=reason)
+            else:
+                await ctx.guild.ban(member, reason=reason)
+                
+            await ctx.send(f'{member.name} has been banned!')
             await ctx.message.add_reaction(emoji='✅')
         except Exception as e:
             await ctx.send("Failed to ban: " + str(e))
+            await ctx.message.add_reaction(emoji='❌')
+    
+    @discord.ext.commands.command()
+    @discord.ext.commands.has_permissions(ban_members=True)  # check user permission
+    async def unban(self, ctx, member: discord.User, *, reason=None):
+        try:
+            await ctx.guild.unban(member, reason=reason)                
+            await ctx.send(f'{member.name} has been unbanned!')
+            await ctx.message.add_reaction(emoji='✅')
+        except Exception as e:
+            await ctx.send("Failed to unban: " + str(e))
             await ctx.message.add_reaction(emoji='❌')
 
     @discord.ext.commands.command() # Work In Progress
@@ -165,7 +181,7 @@ class Commands(discord.ext.commands.Cog):
         embed.set_author(name=f"Teapot.py {teapot.version()}",
                          icon_url="https://cdn.discordapp.com/avatars/612634758744113182/7fe078b5ea6b43000dfb7964e3e4d21d.png?size=512")
         embed.set_thumbnail(url="https://avatars2.githubusercontent.com/u/60006969?s=200&v=4")
-        embed.add_field(name="Bot User:", value=bot.user, inline=True)
+        embed.add_field(name="Bot User:", value=self.bot.user, inline=True)
         embed.add_field(name="System Time:", value=time.strftime("%a %b %d %H:%M:%S %Y", time.localtime()), inline=True)
         embed.add_field(name="Memory",
                         value=str(round(psutil.virtual_memory()[1] / 1024 / 1024 / 1024)) + "GB / " + str(round(
@@ -186,5 +202,6 @@ class Commands(discord.ext.commands.Cog):
         await ctx.message.author.send(embed=embed)
         await ctx.message.add_reaction(emoji='✅')
  
+
 def setup(bot):
     bot.add_cog(Commands(bot))
