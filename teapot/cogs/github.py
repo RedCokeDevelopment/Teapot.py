@@ -14,7 +14,7 @@ class GitHub(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(pass_context=True, aliases=['gh'])
+    @commands.command(aliases=['gh'])
     async def github(self, ctx, arg):
         """Fetch repository info"""
 
@@ -29,10 +29,10 @@ class GitHub(commands.Cog):
             em.add_field(name="Language:", value=apijson['language'], inline=True)
 
             try:
-                license = f"[{apijson['license']['spdx_id']}]({json.loads(requests.get(apijson['license']['url']).text)['html_url']})"
+                license_url = f"[{apijson['license']['spdx_id']}]({json.loads(requests.get(apijson['license']['url']).text)['html_url']})"
             except:
-                license = "None"
-            em.add_field(name="License:", value=license, inline=True)
+                license_url = "None"
+            em.add_field(name="License:", value=license_url, inline=True)
             if apijson['stargazers_count'] != 0:
                 em.add_field(name="Star:", value=apijson['stargazers_count'], inline=True)
             if apijson['forks_count'] != 0:

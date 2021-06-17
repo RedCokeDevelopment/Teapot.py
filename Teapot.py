@@ -90,7 +90,7 @@ bot = dcmd.Bot(intents=intents, command_prefix=teapot.config.bot_prefix(), help_
 
 @bot.event
 async def on_ready():
-    print(f"Connected to DiscordAPI in {round(time.perf_counter() - discord_time_start, 2)}s")
+    print(f"Connected to Discord API in {round(time.perf_counter() - discord_time_start, 2)}s")
     time_start = time.perf_counter()
     teapot.events.__init__(bot)
     teapot.cogs.cmds.__init__(bot)

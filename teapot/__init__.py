@@ -1,3 +1,8 @@
+import datetime
+import platform
+import socket
+import sys
+
 from .cogs import *
 from .managers import *
 from .tools import *
@@ -16,12 +21,10 @@ def config_version():
 
 
 def time():
-    import datetime
     return datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")
 
 
 def year():
-    import datetime
     return str(datetime.datetime.now().year)
 
 
@@ -33,20 +36,16 @@ def copyright():
 
 
 def platform():
-    import platform
     return platform.system() + " " + platform.release()
 
 
 def hostname():
-    import socket
     return socket.gethostname()
 
 
 def ip():
-    import socket
     return socket.gethostbyname(hostname())
 
 
 def path():
-    import sys
     return sys.path

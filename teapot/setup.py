@@ -12,9 +12,9 @@ def __init__():
        | |/ _ \\/ _` | '_ \\ / _ \\| __| | |   / _ \\| '_ \\| |_| |/ _` | | | | '__/ _` | __/ _ \\| '__|
        | |  __/ (_| | |_) | (_) | |_  | |__| (_) | | | |  _| | (_| | |_| | | | (_| | || (_) | |   
        |_|\\___|\\__,_| .__/ \\___/ \\__|  \\____\\___/|_| |_|_| |_|\\__, |\\__,_|_|  \\__,_|\\__\\___/|_|   
-                    |_|         by ColaIan and RedTea         |___/                               
+                    |_|    © 2020-2021 Red Coke Development    |___/                               
     
-                      NOTE: You can change the settings later in .env :3
+                      NOTE: You can change the settings later in .env
     
     """)
 
@@ -28,12 +28,6 @@ def __init__():
     input_bot_token = input("Discord bot token: ")
     input_bot_prefix = input("Command Prefix: ")
     input_bot_status = input("Bot status: (Playing xxx) ")
-    if input_bot_prefix[0] == "[":
-        pass
-    elif input_bot_prefix[0] == "'":
-        input_bot_prefix = f"[{input_bot_prefix}]"
-    else:
-        input_bot_prefix = f"['{input_bot_prefix}']"
     input_storage_type = input("Use MySQL? [Y/n] ")
     if input_storage_type.lower() == "y" or input_storage_type.lower() == "yes":
         input_storage_type = "mysql"
@@ -51,6 +45,8 @@ def __init__():
     input_lavalink_port = input("Lavalink Port: ")
     input_lavalink_password = input("Lavalink Password: ")
 
+    input_osu_api_key = input("osu!api Key")
+
     try:
         config = f"""CONFIG_VERSION={teapot.config_version()}
 BOT_TOKEN={input_bot_token}
@@ -66,10 +62,13 @@ DB_PASSWORD={input_mysql_password}
 
 LAVALINK_HOST={input_lavalink_host}
 LAVALINK_PORT={input_lavalink_port}
-LAVALINK_PASSWORD={input_lavalink_password}"""
+LAVALINK_PASSWORD={input_lavalink_password}
+
+OSU_API_KEY={input_osu_api_key}
+"""
         open('./.env', 'w').write(config)
-        print("\n[*] Successfully created config.ini!")
-        print("Setup complete!")
+        print("\n[*] Successfully created .env file!")
+        print("Teapot.py setup complete! Starting bot in 5 seconds...")
         time.sleep(5)
         print('\n' * 100)
     except Exception as e:
