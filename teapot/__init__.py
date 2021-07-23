@@ -35,7 +35,7 @@ def copyright():
         return f"© 2020-{year()} RedCoke Development"
 
 
-def platform():
+def getPlatform():
     return platform.system() + " " + platform.release()
 
 
