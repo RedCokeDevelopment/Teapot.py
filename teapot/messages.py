@@ -8,7 +8,7 @@ def WIP():
                                      "https://github.com/RedCokeDevelopment/Teapot.py)!", color=0x89CFF0)
 
 
-def PermissionDenied():
+def permission_denied():
     """user don't have permission"""
     return discord.Embed(title="🛑 Permission Denied!", description="You do not have permission to do this!",
                          color=0xFF0000)
