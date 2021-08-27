@@ -27,12 +27,12 @@ if req.status_code == 200:
     if response[0]['name'] == teapot.version():
         print("You are currently running the latest version of Teapot.py!\n")
     else:
-        versionlisted = False
+        version_listed = False
         for x in response:
             if x['name'] == teapot.version():
-                versionlisted = True
+                version_listed = True
                 print("You are not using our latest version! :(\n")
-        if not versionlisted:
+        if not version_listed:
             print("You are currently using an unlisted version!\n")
 elif req.status_code == 404:
     # 404 Not Found
@@ -92,6 +92,7 @@ bot = dcmd.Bot(intents=intents, command_prefix=teapot.config.bot_prefix())
 async def on_ready():
     print(f"Connected to DiscordAPI in {round(time.perf_counter() - discord_time_start, 2)}s")
     time_start = time.perf_counter()
+    # load cogs
     teapot.events.__init__(bot)
     teapot.cogs.cmds.__init__(bot)
     teapot.cogs.music.setup(bot)
@@ -99,6 +100,7 @@ async def on_ready():
     teapot.cogs.github.setup(bot)
     teapot.cogs.cat.setup(bot)
     teapot.cogs.neko.setup(bot)
+    teapot.cogs.nqn.setup(bot)
     if teapot.config.storage_type() == "mysql":
         for guild in bot.guilds:
             teapot.managers.database.create_guild_table(guild)
