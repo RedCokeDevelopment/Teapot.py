@@ -48,7 +48,11 @@ def on_guild_join(bot):
     @bot.event
     async def on_guild_join(ctx):
         if teapot.config.storage_type() == "mysql":
-            teapot.database.create_guild_table(ctx.guild)
+            try:
+                teapot.database.create_guild_table(ctx.guild)
+            except AttributeError as ignored:
+                pass
+
 
 
 def message_send(bot):
