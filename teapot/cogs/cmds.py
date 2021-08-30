@@ -84,8 +84,8 @@ def info(bot):
                                   "/7fe078b5ea6b43000dfb7964e3e4d21d.png?size=512")
         embed.set_thumbnail(url="https://avatars2.githubusercontent.com/u/60006969?s=200&v=4")
         embed.add_field(name="Bot User:", value=bot.user)
-        embed.add_field(name="Guilds:", value=len(bot.guilds))
-        embed.add_field(name="Members:", value=len(set(bot.get_all_members())))
+        embed.add_field(name="Guilds:", value=str(len(bot.guilds)))
+        embed.add_field(name="Members:", value=str(len(set(bot.get_all_members()))))
         embed.add_field(name="O.S.:", value=str(teapot.getPlatform()))
         embed.add_field(name="Storage Type:", value=teapot.config.storage_type())
         embed.add_field(name="Prefix:", value=", ".join(teapot.config.bot_prefix()))
@@ -200,7 +200,9 @@ def debug(bot):
                         inline=True)
         embed.add_field(name="Website:", value="[Website](https://teapot.page)", inline=True)
         embed.add_field(name="Links",
-                        value="[Support Discord](https://discord.gg/7BRGs6F) | [Add bot to server](https://discordapp.com/oauth2/authorize?client_id=669880564270104586&permissions=8&scope=bot) | [Repository](https://github.com/RedCokeDevelopment/Teapot.py)",
+                        value="[Support Discord](https://discord.gg/7BRGs6F) | [Add bot to server]" +
+                              "(https://discordapp.com/oauth2/authorize?client_id=669880564270104586&permissions=8&scope=bot) | " +
+                              "[Repository](https://github.com/RedCokeDevelopment/Teapot.py)",
                         inline=False)
         embed.set_footer(text=f"{teapot.copyright()} | Code licensed under the MIT License")
         # embed.set_image(url="https://user-images.githubusercontent.com/43201383/72987537-89830a80-3e25-11ea-95ef-ecfa0afcff7e.png")
