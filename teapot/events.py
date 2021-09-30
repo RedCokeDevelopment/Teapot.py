@@ -1,6 +1,7 @@
 import json
 import teapot
 import discord
+from profanity_check import predict_prob
 
 
 def __init__(bot):
@@ -48,11 +49,7 @@ def on_guild_join(bot):
     @bot.event
     async def on_guild_join(ctx):
         if teapot.config.storage_type() == "mysql":
-            try:
-                teapot.database.create_guild_table(ctx.guild)
-            except AttributeError as ignored:
-                pass
-
+            teapot.database.create_guild_table(ctx.guild)
 
 
 def message_send(bot):
@@ -91,6 +88,13 @@ def message_send(bot):
         for char in message.content.lower():
             if char not in punctuations:
                 msg = msg + char
+
+        # profanity check
+        prob = predict_prob([msg])
+        if prob >= 0.8:
+            em = discord.Embed(title=f"AI Analysis Results", color=0xC54B4F)
+            em.add_field(name='PROFANITY DETECTED! ', value=str(prob[0]))
+            await message.channel.send(embed=em)
 
         if msg.startswith("system call "):
             content = msg[12:].split(" ")
