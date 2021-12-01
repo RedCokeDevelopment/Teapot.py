@@ -83,7 +83,7 @@ class TeapotBot(asb):
         for file in os.listdir("./teapot/cogs"):
             if file.endswith(".py"):
                 try:
-                    if file === "cmds.py": continue
+                    if file == "cmds.py": continue
                     
                     self.load_extension(f"teapot.cogs.{file[:-3]}")
                     print(f"    Loaded '{file}'")
