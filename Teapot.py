@@ -67,13 +67,9 @@ if teapot.config.storage_type() == "mysql": # if .env use mysql, create the tabl
 
 class TeapotBot(asb):
     def __init__(self):
-        self.intents = discord.Intents.default()
-        self.intents.members = True
-        self.intents.typing = False
-        
         super().__init__(
             command_prefix=teapot.config.bot_prefix(),
-            intents=self.intents,
+            intents=discord.Intents.all(),
             help_command=None,
             case_insensitive=True
         )
