@@ -94,22 +94,22 @@ class TeapotBot(asb):
         print(f"Bot initialised in {round(time.perf_counter() - discord_time_start, 2)}s")
         time_start = time.perf_counter()
         
-        teapot.events.__init__(bot)
-        teapot.cogs.cmds.__init__(bot)
+        teapot.events.__init__(self)
+        teapot.cogs.cmds.__init__(self)
         self.cogs()
         
         if teapot.config.storage_type() == "mysql":
-            for guild in bot.guilds:
+            for guild in self.guilds:
                 teapot.managers.database.create_guild_table(guild)
                 
         elif teapot.config.storage_type() == "sqlite":
             print("[!] Warning: SQLite storage has not been implemented yet. MySQL is recommended")  # WIP
         print(f"Registered commands and events in {round(time.perf_counter() - time_start, 2)}s")
-        await bot.change_presence(status=discord.Status.online, activity=discord.Game(teapot.config.bot_status()))  # Update Bot status
+        await self.change_presence(status=discord.Status.online, activity=discord.Game(teapot.config.bot_status()))  # Update the bot's status
         
 try:
     discord_time_start = time.perf_counter()
-    bot.run(teapot.config.bot_token())
+    TeapotBot().run(teapot.config.bot_token())
 except Exception as e:
     print(f"[/!\\] Error: Failed to connect to the Discord API. Please check your bot token!\n\n{e}")
     if teapot.config.storage_type() == "mysql": db.execute("INSERT INTO `bot_logs`(timestamp, type, class, message) VALUES(%s, %s, %s, %s)", (teapot.time(), "ERROR", __name__, e))
