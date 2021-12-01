@@ -73,7 +73,7 @@ class TeapotBot(asb):
         
         super().__init__(
             command_prefix=teapot.config.bot_prefix(),
-            intents=intents,
+            intents=self.intents,
             help_command=None,
             case_insensitive=True
         )
