@@ -37,7 +37,7 @@ if req.status_code == 200:
         if not version_listed:
             print("You are currently using an unlisted version!\n")
 elif req.status_code == 404: print("Latest Teapot.py version not found!\n")
-else: print(f"An error occurred while fetching the latest Teapot.py version. [{req.status_code}: {HTTPStatus(req.status_code).phrase}]
+else: print(f"An error occurred while fetching the latest Teapot.py version. [{req.status_code}: {HTTPStatus(req.status_code).phrase}]")
 
 load_dotenv(join(dirname(__file__), '.env'))
 
