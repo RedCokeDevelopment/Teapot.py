@@ -8,87 +8,87 @@ import requests
 from discord.ext import commands
 
 import teapot
-import teapot.tools.embed as dmbd
+import teapot.tools.embed as embed
+
+
+def neko_api(x):
+    req = requests.get(f'https://nekos.life/api/v2/img/{x}')
+    try:
+        if req.status_code != 200:
+            print("Unable to obtain neko image!")
+        api_json = json.loads(req.text)
+        url = api_json["url"]
+        em = embed.newembed().set_image(url=url)
+        return em
+    except:
+        return teapot.messages.error(f"obtaining image ({req.status_code})")
 
 
 class Neko(commands.Cog):
     """Neko!!! :3"""
 
     def __init__(self, bot):
-        """ Initialize neko class"""
-
+        """Initialize neko class"""
         self.bot = bot
-
-    def neko_api(self, ctx, x):
-        try:
-            req = requests.get(f'https://nekos.life/api/v2/img/{x}')
-            if req.status_code != 200:
-                print("Could not get a neko")
-            apijson = json.loads(req.text)
-            url = apijson["url"]
-            em = dmbd.newembed().set_image(url=url)
-            return em
-        except:
-            return teapot.messages.error(f"obtaining image ({req.status_code})")
 
     @commands.command()
     async def neko(self, ctx):
-        await ctx.send(embed=self.neko_api(ctx, "neko"))
+        await ctx.send(embed=neko_api("neko"))
 
     @commands.command()
     async def waifu(self, ctx):
-        await ctx.send(embed=self.neko_api(ctx, "waifu"))
+        await ctx.send(embed=neko_api("waifu"))
 
     @commands.command()
     async def avatar(self, ctx):
-        await ctx.send(embed=self.neko_api(ctx, "avatar"))
+        await ctx.send(embed=neko_api("avatar"))
 
     @commands.command()
     async def wallpaper(self, ctx):
-        await ctx.send(embed=self.neko_api(ctx, "wallpaper"))
+        await ctx.send(embed=neko_api("wallpaper"))
 
     @commands.command()
     async def tickle(self, ctx):
-        await ctx.send(embed=self.neko_api(ctx, "tickle"))
+        await ctx.send(embed=neko_api("tickle"))
 
     @commands.command()
     async def poke(self, ctx):
-        await ctx.send(embed=self.neko_api(ctx, "poke"))
+        await ctx.send(embed=neko_api("poke"))
 
     @commands.command()
     async def kiss(self, ctx):
-        await ctx.send(embed=self.neko_api(ctx, "kiss"))
+        await ctx.send(embed=neko_api("kiss"))
 
     @commands.command(aliases=['8ball'])
     async def eightball(self, ctx):
-        await ctx.send(embed=self.neko_api(ctx, "8ball"))
+        await ctx.send(embed=neko_api("8ball"))
 
     @commands.command()
     async def lizard(self, ctx):
-        await ctx.send(embed=self.neko_api(ctx, "lizard"))
+        await ctx.send(embed=neko_api("lizard"))
 
     @commands.command()
     async def slap(self, ctx):
-        await ctx.send(embed=self.neko_api(ctx, "slap"))
+        await ctx.send(embed=neko_api("slap"))
 
     @commands.command()
     async def cuddle(self, ctx):
-        await ctx.send(embed=self.neko_api(ctx, "cuddle"))
+        await ctx.send(embed=neko_api("cuddle"))
 
     @commands.command()
     async def goose(self, ctx):
-        await ctx.send(embed=self.neko_api(ctx, "goose"))
+        await ctx.send(embed=neko_api("goose"))
 
     @commands.command()
     async def fox_girl(self, ctx):
-        await ctx.send(embed=self.neko_api(ctx, "fox_girl"))
+        await ctx.send(embed=neko_api("fox_girl"))
 
     @commands.command()
     async def baka(self, ctx):
-        await ctx.send(embed=self.neko_api(ctx, "baka"))
+        await ctx.send(embed=neko_api("baka"))
 
     @commands.command()
-    async def hentai(self, ctx, type=""):
+    async def hentai(self, ctx, api_type=""):
         if ctx.message.channel.nsfw:
             api_types = ['femdom', 'classic', 'ngif', 'erofeet', 'erok', 'les',
                          'hololewd', 'lewdk', 'keta', 'feetg', 'nsfw_neko_gif', 'eroyuri',
@@ -97,13 +97,13 @@ class Neko(commands.Cog):
                          'feet', 'smug', 'kemonomimi', 'solog', 'holo', 'bj', 'woof', 'yuri', 'trap', 'anal',
                          'blowjob', 'holoero', 'feed', 'gasm', 'hentai', 'futanari', 'ero', 'solo', 'pwankg', 'eron',
                          'erokemo']
-            if type in api_types:
+            if api_type in api_types:
+                req = requests.get(f'https://nekos.life/api/v2/img/{api_type}')
                 try:
-                    req = requests.get(f'https://nekos.life/api/v2/img/{type}')
                     if req.status_code != 200:
                         print("Unable to obtain image")
-                    apijson = json.loads(req.text)
-                    url = apijson["url"]
+                    api_json = json.loads(req.text)
+                    url = api_json["url"]
 
                     message = await ctx.send(embed=teapot.messages.downloading())
                     async with aiohttp.ClientSession() as session:
