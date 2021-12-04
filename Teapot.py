@@ -76,12 +76,12 @@ if teapot.config.storage_type() == "mysql": # if .env use mysql, create the tabl
     teapot.managers.database.create_table(
         "CREATE TABLE IF NOT EXISTS `guild_logs` (`timestamp` TEXT, `guild_id` BIGINT, `channel_id` BIGINT, `message_id` BIGINT, `user_id` BIGINT, `action_type` TINYTEXT, `message` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci")
 
-    print(
-        f"Connected to database ({teapot.config.db_host()}:{teapot.config.db_port()}) in {round(time.perf_counter() - time_start, 2)}s")
-
     db.execute("INSERT INTO `bot_logs`(timestamp, type, class, message) VALUES(%s, %s, %s, %s)",
                (teapot.time(), "BOT_START", __name__, "Initialized bot"))
     database.commit()
+
+    print(
+        f"Connected to database ({teapot.config.db_host()}:{teapot.config.db_port()}) in {round(time.perf_counter() - time_start, 2)}s")
 
 intents = discord.Intents.default()
 intents.members = True
