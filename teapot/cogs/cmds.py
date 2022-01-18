@@ -198,7 +198,7 @@ def debug(bot):
                         inline=True)
         embed.add_field(name="Bug Report:", value="[Issues](https://github.com/RedCokeDevelopment/Teapot.py/issues)",
                         inline=True)
-        embed.add_field(name="Website:", value="[Website](https://teapot.page)", inline=True)
+        embed.add_field(name="Website:", value="[Website](https://teapot.bot)", inline=True)
         embed.add_field(name="Links",
                         value="[Support Discord](https://discord.gg/7BRGs6F) | [Add bot to server]" +
                               "(https://discordapp.com/oauth2/authorize?client_id=669880564270104586&permissions=8&scope=bot) | " +
