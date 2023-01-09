@@ -84,9 +84,9 @@ def info(bot):
                                   "/7fe078b5ea6b43000dfb7964e3e4d21d.png?size=512")
         embed.set_thumbnail(url="https://avatars2.githubusercontent.com/u/60006969?s=200&v=4")
         embed.add_field(name="Bot User:", value=bot.user)
-        embed.add_field(name="Guilds:", value=str(len(bot.guilds)))
-        embed.add_field(name="Members:", value=str(len(set(bot.get_all_members()))))
-        embed.add_field(name="O.S.:", value=str(teapot.getPlatform()))
+        embed.add_field(name="Guilds:", value=len(bot.guilds))
+        embed.add_field(name="Members:", value=len(set(bot.get_all_members())))
+        embed.add_field(name="O.S.:", value=str(teapot.platform()))
         embed.add_field(name="Storage Type:", value=teapot.config.storage_type())
         embed.add_field(name="Prefix:", value=", ".join(teapot.config.bot_prefix()))
         embed.add_field(name="Github Repo:", value="[Teapot.py](https://github.com/RedCokeDevelopment/Teapot.py)")
@@ -191,7 +191,7 @@ def debug(bot):
         embed.add_field(name="Memory",
                         value=str(round(psutil.virtual_memory()[1] / 1024 / 1024 / 1024)) + "GB / " + str(round(
                             psutil.virtual_memory()[0] / 1024 / 1024 / 1024)) + "GB", inline=True)
-        embed.add_field(name="O.S.:", value=str(teapot.getPlatform()), inline=True)
+        embed.add_field(name="O.S.:", value=str(teapot.platform()), inline=True)
         embed.add_field(name="Storage Type:", value=teapot.config.storage_type(), inline=True)
         embed.add_field(name="Prefix:", value=", ".join(teapot.config.bot_prefix()), inline=True)
         embed.add_field(name="Github Repo:", value="[Teapot.py](https://github.com/RedCokeDevelopment/Teapot.py)",
