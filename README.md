@@ -46,7 +46,7 @@ A big thanks to all those who contribute to the project ❤
 There are two owners for this project. They all contribute massively to the running of this project. Links to their GitHub profiles can be found below:
 
 - [ColaIan](https://github.com/ColaIan) (ColaIan#2974)
-- [RedTea](https://github.com/RedTeaDev) (RedTea#0001)
+- [RedTea](https://github.com/RedTeaDev) (RedTea#9209)
 
 ## 📜 Requirements
 These are the requirements for the bot.
