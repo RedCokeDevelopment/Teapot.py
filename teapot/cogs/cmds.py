@@ -198,9 +198,11 @@ def debug(bot):
                         inline=True)
         embed.add_field(name="Bug Report:", value="[Issues](https://github.com/RedCokeDevelopment/Teapot.py/issues)",
                         inline=True)
-        embed.add_field(name="Website:", value="[Website](https://teapot.page)", inline=True)
+        embed.add_field(name="Website:", value="[Website](https://teapot.bot)", inline=True)
         embed.add_field(name="Links",
-                        value="[Support Discord](https://discord.gg/7BRGs6F) | [Add bot to server](https://discordapp.com/oauth2/authorize?client_id=669880564270104586&permissions=8&scope=bot) | [Repository](https://github.com/RedCokeDevelopment/Teapot.py)",
+                        value="[Support Discord](https://discord.gg/7BRGs6F) | [Add bot to server]" +
+                              "(https://discordapp.com/oauth2/authorize?client_id=669880564270104586&permissions=8&scope=bot) | " +
+                              "[Repository](https://github.com/RedCokeDevelopment/Teapot.py)",
                         inline=False)
         embed.set_footer(text=f"{teapot.copyright()} | Code licensed under the MIT License")
         # embed.set_image(url="https://user-images.githubusercontent.com/43201383/72987537-89830a80-3e25-11ea-95ef-ecfa0afcff7e.png")

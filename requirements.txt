@@ -1,11 +1,11 @@
 aiohttp>=3.6.2
 async-timeout>=3.0.1
 attrs>=19.3.0
-beautifulsoup4>=4.9.1
+beautifulsoup4>=4.10.0
 bs4>=0.0.1
-certifi>=2020.6.20
+certifi>=2021.5.30
 chardet>=3.0.4
-discord.py>=1.7.2
+discord.py>=1.7.3
 idna>=2.10
 lavalink>=3.1.2
 multidict>=4.7.6
@@ -19,3 +19,5 @@ urllib3>=1.25.10
 websockets>=8.1
 yarl>=1.5.1
 mysql-connector-python>=8.0.21
+alt-profanity-check==1.1.1
+protobuf>=3.20.2 # not directly required, pinned by Snyk to avoid a vulnerability
