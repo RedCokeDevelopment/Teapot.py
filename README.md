@@ -11,50 +11,50 @@
 </p>
 
 <h2 align="center">
-    This project is currently in development!<br>
+    Bu proje şu anda geliştirme aşamasında! <br>
 </h2>
 <h4 align="center">
-    If you would like to be notified when we commit, please watch this repository and join our Discord server.
+   Taahhüt ettiğimizde bilgilendirilmek istiyorsanız, lütfen bu depoyu izleyin ve Discord sunucumuza katılın.
 </h4>
 
 
-## 👋 About
+## 👋 Hakkında
 
-Teapot.py is an open-source Discord bot that aims to be as customizable as possible as well as providing essential tools for server administrators to run their Discord server!
+Teapot.py, sunucu yöneticilerinin Discord sunucularını çalıştırmaları için gerekli araçları sağlamanın yanı sıra mümkün olduğunca özelleştirilebilir olmayı hedefleyen açık kaynaklı bir Discord botudur!
 
-If you want to try it out by yourself, feel free to invite it to your Discord server by clicking [Here](https://discordapp.com/oauth2/authorize?client_id=669880564270104586&permissions=8&scope=bot)!
+Kendiniz denemek isterseniz, tıklayarak onu Discord sunucunuza davet etmekten çekinmeyin. [Here](https://discordapp.com/oauth2/authorize?client_id=669880564270104586&permissions=8&scope=bot)!
 
-## ⌨ Planned Features
-- Music Player
-- Moderation Tools
-- Localization
-- Fun Commands
+## ⌨ Planlanan Özellikler
+- Müzik çalar
+- Moderasyon Araçları
+- Yerelleştirme
+- Eğlenceli Komutlar
 
 
 ## 📖 Wiki
 
-Our wiki is currently work in progress, please check back later!
+Wiki'miz şu anda devam ediyor, lütfen daha sonra tekrar kontrol edin!
 
-## 🤝 Contributing
-Contributions, feedback, and bug reports are welcome! Feel free to check out our [issues page](https://github.com/RedCokeDevelopment/Teapot.py/issues) to find out what you could do!
+## 🤝 Katkı
+Katkılar, geri bildirimler ve hata raporları bekliyoruz! Kontrol etmekten çekinmeyin [issues page](https://github.com/RedCokeDevelopment/Teapot.py/issues) neler yapabileceğinizi öğrenmek için!
 
-Before contributing, we recommend you say hi over in our [Discord server](https://discord.gg/7BRGs6F)! We can provide support with any issues you may have 🙂
+Katkıda bulunmadan önce, sayfamızda merhaba demenizi öneririz. [Discord server](https://discord.gg/7BRGs6F)! Sahip olabileceğiniz herhangi bir sorun için destek sağlayabiliriz 🙂
 
-A big thanks to all those who contribute to the project ❤
+Projede emeği geçen herkese sonsuz teşekkürler ❤
 
-## 💼 Project Owners 
-There are two owners for this project. They all contribute massively to the running of this project. Links to their GitHub profiles can be found below:
+## 💼 Proje Sahipleri 
+Bu projenin iki sahibi var. Hepsi bu projenin yürütülmesine büyük katkı sağlıyor. GitHub profillerine bağlantılar aşağıda bulunabilir:
 
 - [ColaIan](https://github.com/ColaIan) (ColaIan#2974)
 - [RedTea](https://github.com/RedTeaDev) (RedTea#9209)
 
-## 📜 Requirements
-These are the requirements for the bot.
+## 📜 Gereksinimler
+Bunlar bot için gereksinimlerdir.
 
-- [Python 3.9](https://www.python.org/downloads) (Required packages listed in requirements.txt)
-- [LavaLink Server](https://github.com/freyacodes/lavalink) (Java 11 required)
+- [Python 3.9](https://www.python.org/downloads) (Listelenen gerekli Python paketleri requirements.txt dosyasında bulunmaktadır)
+- [LavaLink Server](https://github.com/freyacodes/lavalink) (Java 11 gerekli)
 
-## 💖 Credits
-The projects listed in below have provided inspiration, and we thought we'd mention them:
+## 💖 Kredi
+Aşağıda sıralanan projeler bize ilham kaynağı oldu ve biz de onlardan bahsetmek istedik:
 
 - LavaLink: https://github.com/freyacodes/lavalink
