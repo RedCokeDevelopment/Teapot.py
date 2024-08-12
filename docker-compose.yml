@@ -1,0 +1,20 @@
+services:
+  teapot:
+    build: .
+    ports:
+      - "4000:8000"
+    environment:
+      CONFIG_VERSION: "0.1"
+      BOT_TOKEN: "your_bot_token_here"
+      BOT_PREFIX: "['/teapot ', '/tp ']"
+      BOT_STATUS: "/teapot , /tp  | Teapot.py 0.1"
+      STORAGE_TYPE: "flatfile"
+      OSU_API_KEY: "your_osu_api_key_here"
+      DB_HOST: "127.0.0.1"
+      DB_PORT: "3306"
+      DB_SCHEMA: "teapot"
+      DB_USER: "teapot"
+      DB_PASSWORD: "your_db_password_here"
+      LAVALINK_HOST: "127.0.0.1"
+      LAVALINK_PORT: "2333"
+      LAVALINK_PASSWORD: "your_lavalink_password_here"
