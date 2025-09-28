@@ -107,7 +107,8 @@ async def on_ready():
         'teapot.cogs.github',
         'teapot.cogs.cat',
         'teapot.cogs.neko',
-        #'teapot.cogs.nqn'
+        'teapot.cogs.nqn',
+        # 'teapot.cogs.music' -- TODO: WIP
     ]
     
     for extension in extensions:
