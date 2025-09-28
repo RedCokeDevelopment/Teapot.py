@@ -9,6 +9,7 @@ from discord.ext import commands as dcmd
 from dotenv import load_dotenv
 
 import teapot
+from teapot.event_handler.loader import EventHandlerLoader
 
 print(f"""
   _____                      _   
@@ -83,11 +84,14 @@ if teapot.config.storage_type() == "mysql": # if .env use mysql, create the tabl
     print(
         f"Connected to database ({teapot.config.db_host()}:{teapot.config.db_port()}) in {round(time.perf_counter() - time_start, 2)}s")
 
+
 intents = discord.Intents.all()
 intents.members = True
 intents.message_content = True
 intents.typing = False
 bot = dcmd.Bot(intents=intents, command_prefix=teapot.config.bot_prefix(), help_command=None)
+
+event_handler_loader = EventHandlerLoader(bot) # Event Handler
 
 
 @bot.event

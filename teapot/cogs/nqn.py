@@ -5,7 +5,6 @@ from discord.ext import commands
 class Emoji(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.on_message_send(bot)
 
     async def getemote(self, arg):
         emoji = utils.get(self.bot.emojis, name=arg.strip(":"))
@@ -60,41 +59,6 @@ class Emoji(commands.Cog):
             return content
 
         return ret
-
-    def on_message_send(self, bot):
-        @bot.event
-        async def on_message(message):
-            if message.author.bot:  # check is author bot
-                return
-
-            if ":" in message.content:
-                msg = await self.getinstr(message.content)
-                ret = ""
-                em = False
-                smth = message.content.split(":")
-                if len(smth) > 1:
-                    for word in msg:
-                        if word.startswith(":") and word.endswith(":") and len(word) > 1:
-                            emoji = await self.getemote(word)
-                            if emoji is not None:
-                                em = True
-                                ret += f" {emoji}"
-                            else:
-                                ret += f" {word}"
-                        else:
-                            ret += f" {word}"
-
-                else:
-                    ret += msg
-
-                if em:
-                    webhooks = await message.channel.webhooks()
-                    webhook = utils.get(webhooks, name="Imposter NQN")
-                    if webhook is None:
-                        webhook = await message.channel.create_webhook(name="Imposter NQN")
-
-                    await webhook.send(ret, username=message.author.name, avatar_url=message.author.display_avatar.url)
-                    await message.delete()
 
 
 async def setup(bot):
