@@ -52,7 +52,8 @@ class Osu(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(no_pm=True)
+    @commands.command()
+    @commands.guild_only()
     async def osu(self, ctx, *, args: str):
         """ Look up an osu player """
 
@@ -86,5 +87,5 @@ class Osu(commands.Cog):
         await ctx.send(embed=OsuPlayer(user[0]).display(ctx.message.author))
 
 
-def setup(bot):
-    bot.add_cog(Osu(bot))
+async def setup(bot):
+    await bot.add_cog(Osu(bot))

@@ -13,7 +13,7 @@ from .setup import *
 
 
 def version():
-    return "v0.0.1.7"
+    return "v0.0.2-REWRITE"
 
 
 def config_version():
@@ -29,13 +29,10 @@ def year():
 
 
 def copyright():
-    if year() == "2020":
-        return "© 2020 RedCoke Development"
-    else:
         return f"© 2020-{year()} RedCoke Development"
 
 
-def platform():
+def get_platform():
     return platform.system() + " " + platform.release()
 
 

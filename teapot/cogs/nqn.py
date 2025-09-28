@@ -1,4 +1,3 @@
-import discord
 from discord import utils
 from discord.ext import commands
 
@@ -94,9 +93,9 @@ class Emoji(commands.Cog):
                     if webhook is None:
                         webhook = await message.channel.create_webhook(name="Imposter NQN")
 
-                    await webhook.send(ret, username=message.author.name, avatar_url=message.author.avatar_url)
+                    await webhook.send(ret, username=message.author.name, avatar_url=message.author.display_avatar.url)
                     await message.delete()
 
 
-def setup(bot):
-    bot.add_cog(Emoji(bot))
+async def setup(bot):
+    await bot.add_cog(Emoji(bot))

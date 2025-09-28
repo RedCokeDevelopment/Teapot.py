@@ -12,7 +12,7 @@ def __init__(bot):
     message_send(bot)
     message_edit(bot)
     message_delete(bot)
-    # on_command_error(bot)
+    on_command_error(bot)
 
 
 def join(bot):
@@ -61,8 +61,8 @@ def message_send(bot):
                 db = teapot.database.db(database)
                 db.execute("SELECT * FROM `users` WHERE user_id = '" + str(message.author.id) + "'")
                 if db.rowcount == 0:
-                    db.execute("INSERT INTO `users`(user_id, user_name, user_discriminator) VALUES(%s, %s, %s)",
-                               (message.author.id, message.author.name, message.author.discriminator.zfill(4)))
+                    db.execute("INSERT INTO `users`(user_id, user_name, user_display_name) VALUES(%s, %s, %s)",
+                               (message.author.id, message.author.name, message.author.display_name))
                     database.commit()
 
                 db.execute("SELECT * FROM `channels` WHERE channel_id = '" + str(message.channel.id) + "'")
@@ -92,7 +92,7 @@ def message_send(bot):
         # profanity check
         prob = predict_prob([msg])
         if prob >= 0.8:
-            em = discord.Embed(title=f"AI Analysis Results", color=0xC54B4F)
+            em = discord.Embed(title=f"AI Analysis Results", color=0xC54B4F) # TODO: this will be replaced with cloud detection soon
             em.add_field(name='PROFANITY DETECTED! ', value=str(prob[0]))
             await message.channel.send(embed=em)
 
@@ -127,6 +127,8 @@ def message_send(bot):
 def message_edit(bot):
     @bot.event
     async def on_raw_message_edit(ctx):
+        if ctx.guild_id is None:
+            return
         guild_id = json.loads(json.dumps(ctx.data))['guild_id']
         channel_id = json.loads(json.dumps(ctx.data))['channel_id']
         message_id = json.loads(json.dumps(ctx.data))['id']
