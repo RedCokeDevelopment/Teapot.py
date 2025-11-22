@@ -7,6 +7,7 @@ import requests
 import discord
 from discord.ext import commands as dcmd
 from dotenv import load_dotenv
+import lavalink
 
 import teapot
 from teapot.event_handler.loader import EventHandlerLoader
@@ -101,6 +102,12 @@ async def on_ready():
 
     # load cogs
     teapot.events.__init__(bot)
+    # Initialize lavalink client once here so cogs do not need to recreate it
+    if not hasattr(bot, 'lavalink'):
+        print("Initializing Lavalink client...")
+        bot.lavalink = lavalink.Client(bot.user.id)
+        bot.lavalink.add_node(teapot.config.lavalink_host(), teapot.config.lavalink_port(), teapot.config.lavalink_password(), 'zz', 'default')
+        bot.add_listener(bot.lavalink.voice_update_handler, 'on_socket_response')
     extensions = [
         'teapot.cogs.cmds',
         'teapot.cogs.osu', 
@@ -108,7 +115,7 @@ async def on_ready():
         'teapot.cogs.cat',
         'teapot.cogs.neko',
         'teapot.cogs.nqn',
-        # 'teapot.cogs.music' -- TODO: WIP
+        'teapot.cogs.music' # TODO: WIP
     ]
     
     for extension in extensions:

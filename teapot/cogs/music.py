@@ -3,27 +3,78 @@ import re
 
 import discord
 import lavalink
+from lavalink.errors import ClientError
 from discord.ext import commands
 
 import teapot
 
-url_rx = re.compile('https?:\\/\\/(?:www\\.)?.+')  # noqa: W605
+url_rx = re.compile('https?:\/\/(?:www\.)?.+')  # noqa: W605
 
+class LavalinkVoiceClient(discord.VoiceProtocol):
+    """Voice protocol implementation that relays Discord voice events to Lavalink."""
 
-class Music(commands.Cog):
+    def __init__(self, client: discord.Client, channel: discord.abc.Connectable):
+        super().__init__(client, channel)
+        if not hasattr(client, 'lavalink'):
+            raise RuntimeError('Lavalink client is not initialized on the bot.')
+
+        self.guild_id = channel.guild.id
+        self._destroyed = False
+        self.lavalink: lavalink.Client = client.lavalink
+
+    async def connect(self, *, timeout: float, reconnect: bool, self_deaf: bool = False, self_mute: bool = False):
+        player = self.lavalink.player_manager.create(self.guild_id)
+        player.channel_id = str(self.channel.id)
+        await self.channel.guild.change_voice_state(channel=self.channel, self_deaf=self_deaf, self_mute=self_mute)
+        self._destroyed = False
+
+    async def disconnect(self, *, force: bool = False):
+        player = self.lavalink.player_manager.get(self.guild_id)
+
+        if player and not force and not player.is_connected:
+            return
+
+        await self.channel.guild.change_voice_state(channel=None)
+
+        if player:
+            player.channel_id = None
+
+        await self._destroy()
+
+    async def on_voice_server_update(self, data):
+        await self.lavalink.voice_update_handler({'t': 'VOICE_SERVER_UPDATE', 'd': data})
+
+    async def on_voice_state_update(self, data):
+        channel_id = data.get('channel_id')
+
+        if channel_id:
+            maybe_channel = self.client.get_channel(int(channel_id))
+            if maybe_channel is not None:
+                self.channel = maybe_channel
+        else:
+            await self._destroy()
+
+        await self.lavalink.voice_update_handler({'t': 'VOICE_STATE_UPDATE', 'd': data})
+
+    async def _destroy(self):
+        if self._destroyed:
+            return
+
+        self._destroyed = True
+        self.cleanup()
+
+        try:
+            await self.lavalink.player_manager.destroy(self.guild_id)
+        except ClientError:
+            pass
+
+class Music(commands.Cog): # TODO: event check to save-up resources when not one is in voice channels
     """Music Time"""
 
     def __init__(self, bot):
         self.bot = bot
-
-        if not hasattr(bot, 'lavalink'):  # This ensures the client isn't overwritten during cog reloads.
-            bot.lavalink = lavalink.Client(bot.user.id)
-            bot.lavalink.add_node(teapot.config.lavalink_host(), teapot.config.lavalink_port(),
-                                  teapot.config.lavalink_password(), 'zz',
-                                  'default')  # Host, Port, Password, Region, Name
-            bot.add_listener(bot.lavalink.voice_update_handler, 'on_socket_response')
-
-        bot.lavalink.add_event_hook(self.track_hook)
+        self.lavalink: lavalink.Client = bot.lavalink
+        self.lavalink.add_event_hook(self.track_hook)
 
     def cog_unload(self):
         self.bot.lavalink._event_hooks.clear()
@@ -41,12 +92,12 @@ class Music(commands.Cog):
     async def track_hook(self, event):
         if isinstance(event, lavalink.events.QueueEndEvent):
             guild_id = int(event.player.guild_id)
-            await self.connect_to(guild_id, None)
-
-    async def connect_to(self, guild_id: int, channel_id: str):
-        """ Connects to the given voice channel ID. A channel_id of `None` means disconnect. """
-        ws = self.bot._connection._get_websocket(guild_id)
-        await ws.voice_state(str(guild_id), channel_id)
+            guild = self.bot.get_guild(guild_id)
+            if guild and guild.voice_client:
+                try:
+                    await guild.voice_client.disconnect(force=True)
+                except Exception:
+                    pass
 
     @commands.command(aliases=['p'])
     async def play(self, ctx, *, query: str):
@@ -263,7 +314,8 @@ class Music(commands.Cog):
 
         player.queue.clear()
         await player.stop()
-        await self.connect_to(ctx.guild.id, None)
+        if ctx.voice_client:
+            await ctx.voice_client.disconnect(force=True)
         await ctx.send('*⃣ | Disconnected.')
 
     async def ensure_voice(self, ctx):
@@ -284,9 +336,19 @@ class Music(commands.Cog):
                 raise commands.CommandInvokeError('I need the `CONNECT` and `SPEAK` permissions.')
 
             player.store('channel', ctx.channel.id)
-            await self.connect_to(ctx.guild.id, str(ctx.author.voice.channel.id))
+            # mark the player's voice channel for lavalink to know which guild/channel
+            try:
+                player.channel_id = str(ctx.author.voice.channel.id)
+            except Exception:
+                pass
+
+            voice_client = ctx.voice_client
+            if voice_client and voice_client.channel.id != ctx.author.voice.channel.id:
+                raise commands.CommandInvokeError('You need to be in my voice channel.')
+            if not voice_client:
+                await ctx.author.voice.channel.connect(cls=LavalinkVoiceClient)
         else:
-            if int(player.channel_id) != ctx.author.voice.channel.id:
+            if not player.channel_id or int(player.channel_id) != ctx.author.voice.channel.id:
                 raise commands.CommandInvokeError('You need to be in my voice channel.')
 
 
