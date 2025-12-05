@@ -13,7 +13,7 @@ from .setup import *
 
 
 def version():
-    return "v0.0.2-REWRITE"
+    return "v0.0.2"
 
 
 def config_version():
