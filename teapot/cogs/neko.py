@@ -124,6 +124,6 @@ class Neko(commands.Cog):
             await ctx.send("This command only works in NSFW channels!")
 
 
-def setup(bot):
+async def setup(bot):
     """ Setup Neko Module"""
-    bot.add_cog(Neko(bot))
+    await bot.add_cog(Neko(bot))
