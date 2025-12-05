@@ -47,6 +47,6 @@ class Cat(commands.Cog):
         await ctx.message.add_reaction(emoji='✅')
 
 
-def setup(bot):
+async def setup(bot):
     """ Setup Cat Module"""
-    bot.add_cog(Cat(bot))
+    await bot.add_cog(Cat(bot))
