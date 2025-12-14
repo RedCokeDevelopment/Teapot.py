@@ -7,8 +7,10 @@ import requests
 import discord
 from discord.ext import commands as dcmd
 from dotenv import load_dotenv
+import lavalink
 
 import teapot
+from teapot.event_handler.loader import EventHandlerLoader
 
 print(f"""
   _____                      _   
@@ -70,7 +72,7 @@ if teapot.config.storage_type() == "mysql": # if .env use mysql, create the tabl
     db.execute(
         'CREATE TABLE IF NOT EXISTS `channels` (`channel_id` BIGINT, `channel_name` TINYTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci')
     db.execute(
-        "CREATE TABLE IF NOT EXISTS `users` (`user_id` BIGINT, `user_name` TINYTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci, `user_discriminator` INT) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci")
+        "CREATE TABLE IF NOT EXISTS `users` (`user_id` BIGINT, `user_name` TINYTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci, `user_display_name` TINYTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci")
     db.execute(
         "CREATE TABLE IF NOT EXISTS `bot_logs` (`timestamp` TEXT, `type` TINYTEXT, `class` TINYTEXT, `message` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci")
     teapot.managers.database.create_table(
@@ -83,30 +85,57 @@ if teapot.config.storage_type() == "mysql": # if .env use mysql, create the tabl
     print(
         f"Connected to database ({teapot.config.db_host()}:{teapot.config.db_port()}) in {round(time.perf_counter() - time_start, 2)}s")
 
-intents = discord.Intents.default()
+
+intents = discord.Intents.all()
 intents.members = True
+intents.message_content = True
 intents.typing = False
 bot = dcmd.Bot(intents=intents, command_prefix=teapot.config.bot_prefix(), help_command=None)
+
+event_handler_loader = EventHandlerLoader(bot) # Event Handler
+
 
 @bot.event
 async def on_ready():
     print(f"Connected to Discord API in {round(time.perf_counter() - discord_time_start, 2)}s")
     time_start = time.perf_counter()
+
     # load cogs
     teapot.events.__init__(bot)
-    teapot.cogs.cmds.__init__(bot)
-    teapot.cogs.music.setup(bot)
-    teapot.cogs.osu.setup(bot)
-    teapot.cogs.github.setup(bot)
-    teapot.cogs.cat.setup(bot)
-    teapot.cogs.neko.setup(bot)
-    teapot.cogs.nqn.setup(bot)
+    # Initialize lavalink client once here so cogs do not need to recreate it
+    if not hasattr(bot, 'lavalink'):
+        print("Initializing Lavalink client...")
+        bot.lavalink = lavalink.Client(bot.user.id)
+        bot.lavalink.add_node(teapot.config.lavalink_host(), teapot.config.lavalink_port(), teapot.config.lavalink_password(), 'zz', 'default')
+        bot.add_listener(bot.lavalink.voice_update_handler, 'on_socket_response')
+    extensions = [
+        'teapot.cogs.cmds',
+        'teapot.cogs.osu', 
+        'teapot.cogs.github',
+        'teapot.cogs.cat',
+        'teapot.cogs.neko',
+        'teapot.cogs.nqn',
+        'teapot.cogs.music' # TODO: WIP
+    ]
+    
+    for extension in extensions:
+        try:
+            await bot.load_extension(extension)
+            print(f"✓ Successfully loaded module: {extension}")
+        except Exception as e:
+            print(f"✗ Failed to load {extension}: {e}")
+            import traceback
+            traceback.print_exc()
     if teapot.config.storage_type() == "mysql":
         for guild in bot.guilds:
             teapot.managers.database.create_guild_table(guild)
     elif teapot.config.storage_type() == "sqlite":
         print("[!] Warning: SQLite storage has not been implemented yet. MySQL is recommended")  # WIP
+    
     print(f"Registered commands and events in {round(time.perf_counter() - time_start, 2)}s")
+    print(f"total of commands loaded: {len(bot.commands)}")
+    print(f"Modules loaded: {list(bot.cogs.keys())}")
+    
     await bot.change_presence(status=discord.Status.online,
                               activity=discord.Game(teapot.config.bot_status()))  # Update Bot status
 

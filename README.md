@@ -51,8 +51,9 @@ There are two owners for this project. They all contribute massively to the runn
 ## 📜 Requirements
 These are the requirements for the bot.
 
-- [Python 3.9](https://www.python.org/downloads) (Required packages listed in requirements.txt)
+- [Python 3.10](https://www.python.org/downloads) (Required packages listed in requirements.txt)
 - [LavaLink Server](https://github.com/freyacodes/lavalink) (Java 11 required)
+- Database is optional but preferred
 
 ## 💖 Credits
 The projects listed in below have provided inspiration, and we thought we'd mention them:

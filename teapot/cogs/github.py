@@ -62,6 +62,6 @@ class GitHub(commands.Cog):
             await ctx.send(embed=teapot.messages.error("Fetch repository info"))
 
 
-def setup(bot):
+async def setup(bot):
     """ Setup GitHub Module"""
-    bot.add_cog(GitHub(bot))
+    await bot.add_cog(GitHub(bot))
