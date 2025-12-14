@@ -17,6 +17,9 @@ def trn_api_key():
     return os.getenv('TRN_API_KEY')
 
 
+def profanity_filter():
+    return os.getenv("PROFANITY_FILTER", "none")
+
 def bot_prefix():
     return eval(os.getenv('BOT_PREFIX', "['/teapot ', '/tp']"))
 

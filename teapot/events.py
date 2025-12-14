@@ -1,7 +1,6 @@
 import json
 import teapot
 import discord
-from profanity_check import predict_prob
 
 
 def __init__(bot):

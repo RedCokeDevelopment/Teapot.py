@@ -45,7 +45,19 @@ def __init__():
     input_lavalink_port = input("Lavalink Port: ")
     input_lavalink_password = input("Lavalink Password: ")
 
-    input_osu_api_key = input("osu!api Key")
+    input_osu_api_key = input("osu!api Key:")
+
+    input_profanity_filter = input("Enable profanity filter? [Y/n] ")
+    if input_profanity_filter.lower() == "y" or input_profanity_filter.lower() == "yes":
+        # ask for which implementation did user want, either local or api
+        input_profanity_impl = input("Use local or api implementation? [local/api] ")
+        if input_profanity_impl.lower() == "api":
+            input_profanity_impl = input("Profanity API (should be in format like https://api_key:model_name@example.com): ")
+        else:
+            input_profanity_impl = "local"
+    else:
+        input_profanity_impl = "none"
+            
 
     try:
         config = f"""CONFIG_VERSION={teapot.config_version()}
@@ -65,6 +77,7 @@ LAVALINK_PORT={input_lavalink_port}
 LAVALINK_PASSWORD={input_lavalink_password}
 
 OSU_API_KEY={input_osu_api_key}
+PROFANITY_FILTER={input_profanity_impl}
 """
         open('./.env', 'w').write(config)
         print("\n[*] Successfully created .env file!")
