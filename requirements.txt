@@ -19,6 +19,6 @@ urllib3>=2.5.0
 websockets>=15.0.1
 yarl>=1.20.1
 mysql-connector-python>=9.4.0
-alt-profanity-check==1.7.2
+alt-profanity-check==1.8.0
 PyNaCl>=1.6.1
 protobuf>=6.32.1 # not directly required, pinned by Snyk to avoid a vulnerability
